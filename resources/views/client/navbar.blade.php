@@ -73,19 +73,13 @@
 
     <nav
         id="main-navbar"
-        class="fixed left-0 top-0 z-50 w-full border-b border-white/30 bg-white/80 shadow-xl shadow-black/5 backdrop-blur-xl backdrop-saturate-150"
+        class="fixed left-0 top-0 z-50 w-full border-b border-white/30 bg-white/90 shadow-xl shadow-black/5 backdrop-blur-xl backdrop-saturate-150"
     >
-
         <div class="relative overflow-visible">
-
             <div class="container relative mx-auto flex h-16 items-center justify-between px-3 sm:h-[4.5rem] sm:px-5 lg:h-20 lg:px-8">
-
                 <div class="hidden items-center gap-1 lg:flex">
-
                     @foreach ($normalItems as $item)
-
                         @if (!empty($item['dropdown']))
-
                             <div
                                 class="relative"
                                 @mouseenter="collectionOpen = true"
@@ -94,7 +88,7 @@
                                 <button
                                     type="button"
                                     @click="collectionOpen = !collectionOpen"
-                                    class="nav-link group relative flex items-center gap-1 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-600 transition-colors duration-200 hover:text-gray-500 xl:px-4"
+                                    class="nav-link group relative flex items-center gap-1 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-600 transition-colors duration-200 hover:text-gray-500 xl:px-4 uppercase"
                                 >
 
                                     <span>{{ $item['name'] }}</span>
@@ -283,28 +277,25 @@
                 <div class="ml-auto hidden items-center lg:flex">
 
                     <button
-                        type="button"
-                        @click="openAside()"
-                        class="group flex items-center gap-2 rounded-xl border border-white/30 bg-white/30 px-4 py-2.5 text-sm font-semibold text-gray-600 shadow-sm backdrop-blur-md transition-all duration-200 hover:bg-white/50 hover:text-gray-500 xl:px-5"
+                    type="button"
+                    @click="openAside()"
+                    class="group flex items-center justify-center rounded-xl border border-white/30 bg-white/30 p-2.5 text-gray-600 shadow-sm backdrop-blur-md transition-all duration-200 hover:bg-white/50 hover:text-gray-500"
+                    aria-label="Open menu"
+                >
+                    <svg
+                        class="h-5 w-5 transition-transform duration-200 group-hover:scale-110"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
                     >
-
-                        Explore
-
-                        <svg
-                            class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M9 5l7 7-7 7"
-                            />
-                        </svg>
-
-                    </button>
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"
+                        />
+                    </svg>
+                </button>
 
                 </div>
 
