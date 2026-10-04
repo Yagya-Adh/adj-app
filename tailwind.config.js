@@ -14,37 +14,69 @@ export default {
             colors: {
                 footblack: "#051e33",
             },
+
             keyframes: {
                 marquee: {
-                    "0%": { transform: "translateX(100%)" },
-                    "100%": { transform: "translateX(-100%)" },
+                    "0%": {
+                        transform: "translateX(100%)",
+                    },
+                    "100%": {
+                        transform: "translateX(-100%)",
+                    },
                 },
+
                 spin: {
-                    "0%": { transform: "rotateY(0deg)" },
-                    "100%": { transform: "rotateY(360deg)" },
+                    "0%": {
+                        transform: "rotateY(0deg)",
+                    },
+                    "100%": {
+                        transform: "rotateY(360deg)",
+                    },
                 },
+
                 spinXY: {
-                    "0%": { transform: "rotateX(0deg) rotateY(0deg)" },
-                    "100%": { transform: "rotateX(360deg) rotateY(360deg)" },
+                    "0%": {
+                        transform: "rotateX(0deg) rotateY(0deg)",
+                    },
+                    "100%": {
+                        transform: "rotateX(360deg) rotateY(360deg)",
+                    },
+                },
+
+                "fade-in-up": {
+                    "0%": {
+                        opacity: "0",
+                        transform: "translateY(30px)",
+                    },
+                    "100%": {
+                        opacity: "1",
+                        transform: "translateY(0)",
+                    },
                 },
             },
+
             animation: {
                 marquee: "marquee 30s linear infinite",
                 spin: "spin 4s linear infinite",
                 spinXY: "spinXY 3s linear infinite",
+                "fade-in-up": "fade-in-up 1s ease-out forwards",
             },
 
             fontFamily: {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],
             },
+
             backgroundImage: {
                 "my-gradient":
                     "linear-gradient(102deg, rgba(3, 5, 29, 0.85) 2.11%, rgba(255, 0, 0, 0.85) 100%)",
+
                 "my-gradient-10":
                     "linear-gradient(119deg, #c39eff 3.38%, #3c78eb 103.77%)",
+
                 "my-gradient-20":
                     "linear-gradient(113.92deg, rgb(81, 91, 112) 5.63%, rgb(36, 32, 63) 136.53%)",
-                hero1: "assets('/build/assets/hero1.jpg')",
+
+                hero1: "url('/build/assets/hero1.jpg')",
             },
         },
     },

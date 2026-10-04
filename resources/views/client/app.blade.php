@@ -71,21 +71,17 @@
         async
         defer
     ></script>
-
-    <script src="https://www.noupe.com/embed/01a048eece0870008676a2fdc395ca289fca.js"></script>
 </head>
 
 <body class="relative min-h-screen bg-[#FDFDFC] text-[#1b1b18]">
 
     <header class="relative text-sm font-semibold uppercase">
-        @include('client.pray-for-nepal')
         @include('client.navbar')
     </header>
 
     <main class="relative z-10">
         @yield('content')
     </main>
-    @include('client.map')
     @include('client.footer')
 </body>
 
