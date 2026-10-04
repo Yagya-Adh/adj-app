@@ -1,88 +1,138 @@
-<footer class="relative overflow-hidden bg-[#eef1f5]">
-    <div class="pointer-events-none absolute inset-0 overflow-hidden">
-        <div class="absolute -left-32 -bottom-40 h-[420px] w-[420px] rounded-full bg-white/80 blur-[100px]"></div>
-    
-        <div class="absolute -right-32 -top-40 h-[400px] w-[400px] rounded-full bg-slate-200/70 blur-[100px]"></div>
-    
-        <div class="absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/50 blur-[90px]"></div>
-    
-        <div class="absolute left-[5%] top-[20%] h-32 w-32 rotate-12 rounded-[40%_60%_55%_45%] border border-white/70 bg-white/20 shadow-[inset_8px_8px_30px_rgba(255,255,255,0.7)] backdrop-blur-xl"></div>
-    
-        <div class="absolute right-[7%] bottom-[10%] h-40 w-40 -rotate-12 rounded-[65%_35%_45%_55%] border border-white/70 bg-white/20 shadow-[inset_-8px_-8px_30px_rgba(255,255,255,0.7)] backdrop-blur-xl"></div>
-    </div>
-    
-    <div class="relative mx-auto max-w-screen-xl px-4 py-10 md:py-16">
-    
-        <div class="relative overflow-hidden rounded-[2.5rem] border border-white/90 bg-white/30 p-[1px] shadow-[0_25px_80px_-30px_rgba(50,60,80,0.25)] backdrop-blur-3xl">
-    
-            <div class="rounded-[2.5rem] border border-white/60 bg-white/20 px-6 py-8 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),inset_0_-20px_50px_rgba(255,255,255,0.12)] backdrop-blur-3xl md:px-10 md:py-10">
-    
-                <div class="flex flex-col items-center gap-8 text-center md:flex-row md:justify-between md:text-left">
-    
-                    <div class="flex items-center justify-center md:justify-start">
-                        <a href="{{ route('home') }}"
-                            aria-label="Home"
-                            class="group flex items-center">
-    
-                            <div class="rounded-2xl border border-white/80 bg-white/35 p-3 shadow-[inset_2px_2px_10px_rgba(255,255,255,0.8),0_8px_25px_rgba(80,90,110,0.08)] backdrop-blur-xl transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-white/50">
-    
-                                <x-application-logo class="block h-9 w-auto fill-current" />
-    
-                            </div>
-                        </a>
-                    </div>
-    
-                    <div class="flex items-center justify-center gap-3">
-    
-                        <a href="https://www.twitter.com"
-                            target="_blank"
-                            aria-label="Twitter"
-                            class="group flex h-12 w-12 items-center justify-center rounded-2xl border border-white/80 bg-white/30 text-gray-600 shadow-[inset_2px_2px_8px_rgba(255,255,255,0.7),0_8px_25px_rgba(80,90,110,0.06)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/55 hover:text-gray-900">
-    
-                            <i class="fa-brands fa-x-twitter text-lg transition-transform duration-300 group-hover:scale-110"></i>
-    
-                        </a>
-    
-                        <a href="https://www.linkedin.com"
-                            target="_blank"
-                            aria-label="LinkedIn"
-                            class="group flex h-12 w-12 items-center justify-center rounded-2xl border border-white/80 bg-white/30 text-gray-600 shadow-[inset_2px_2px_8px_rgba(255,255,255,0.7),0_8px_25px_rgba(80,90,110,0.06)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/55 hover:text-gray-900">
-    
-                            <i class="fa-brands fa-linkedin text-lg transition-transform duration-300 group-hover:scale-110"></i>
-    
-                        </a>
-    
-                        <a href="https://www.github.com"
-                            target="_blank"
-                            aria-label="GitHub"
-                            class="group flex h-12 w-12 items-center justify-center rounded-2xl border border-white/80 bg-white/30 text-gray-600 shadow-[inset_2px_2px_8px_rgba(255,255,255,0.7),0_8px_25px_rgba(80,90,110,0.06)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/55 hover:text-gray-900">
-    
-                            <i class="fa-brands fa-github text-lg transition-transform duration-300 group-hover:scale-110"></i>
-    
-                        </a>
-    
-                    </div>
-    
-                    <div class="flex items-center justify-center md:justify-end">
-    
-                        <p x-data="{ year: new Date().getFullYear() }"
-                            class="text-xs font-medium tracking-wide text-gray-500 md:text-sm">
-    
-                            © <span x-text="year"></span>
-                            <span class="font-semibold text-gray-700">Cupstack</span>.
-                            All rights reserved.
-    
-                        </p>
-    
-                    </div>
-    
+<footer class="overflow-hidden bg-footer-bg">
+    <div class="mx-auto max-w-screen-xl px-4 py-10 md:py-16">
+
+        <div class="overflow-hidden border border-gray-200 bg-white shadow-sm">
+
+            <div class="flex flex-col lg:flex-row">
+
+                <div class="flex flex-1 flex-col items-center justify-center bg-white px-6 py-10 text-center lg:items-start lg:px-10 lg:text-left">
+
+                    <a href="{{ route('home') }}"
+                        aria-label="Home"
+                        class="group mb-5 flex items-center">
+
+                        <div class="rounded-2xl border border-gray-200 bg-white p-3 shadow-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-md">
+
+                            <x-application-logo class="block h-10 w-auto fill-current" />
+
+                        </div>
+
+                    </a>
+
+                    <p class="text-xl font-semibold tracking-tight text-gray-800">
+                        Get In Touch
+                    </p>
+
                 </div>
-    
+
+                <div class="flex flex-1 flex-col justify-center bg-footblack px-6 py-8 text-center text-white lg:border-l lg:border-white/10 lg:px-8 lg:text-left">
+
+                    <p class="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/60">
+                        Mail Us
+                    </p>
+
+                    <a href="mailto:jewelleryz@nexoy.com"
+                        class="text-base font-medium text-white transition-colors duration-300 hover:text-white/70 md:text-lg">
+                        jewelleryz@nexoy.com
+                    </a>
+
+                </div>
+
+                <div class="flex flex-1 flex-col justify-center border-t border-white/10 bg-footblack px-6 py-8 text-center text-white lg:border-l lg:border-t-0 lg:px-8 lg:text-left">
+
+                    <p class="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/60">
+                        Call Us
+                    </p>
+
+                    <a href="tel:+9779845367242"
+                        class="text-base font-medium text-white transition-colors duration-300 hover:text-white/70 md:text-lg">
+                        +977 984-5367242
+                    </a>
+
+                </div>
+
+                <div class="flex flex-1 flex-col justify-center border-t border-white/10 bg-footblack px-6 py-8 text-center text-white lg:border-l lg:border-t-0 lg:px-8 lg:text-left">
+
+                    <p class="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/60">
+                        Address
+                    </p>
+
+                    <p class="text-base font-medium text-white md:text-lg">
+                        Bharatpur, Chitwan, Nepal
+                    </p>
+
+                </div>
+
             </div>
+
+            <div class="border-t border-white/10 bg-footblack px-6 py-8 text-white md:px-10">
+
+                <div class="flex flex-col items-center justify-between gap-6 md:flex-row">
+
+                    <p class="text-center text-xs font-medium tracking-wide text-white/60 md:text-left md:text-sm">
+                        ©
+                        <span x-data="{ year: new Date().getFullYear() }" x-text="year"></span>
+                        <span class="font-semibold text-white">Jewelleryz</span>.
+                        All rights reserved.
+                    </p>
+
+                    <div class="flex flex-col items-center gap-4 sm:flex-row">
+
+                        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-white/60">
+                            Follow Us
+                        </p>
+
+                        <div class="flex items-center gap-3">
+
+                            <a href="https://www.facebook.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="Facebook"
+                                class="group flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/10 text-white transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:text-footblack">
+
+                                <i class="fa-brands fa-facebook-f text-base transition-transform duration-300 group-hover:scale-110"></i>
+
+                            </a>
+
+                            <a href="https://www.instagram.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="Instagram"
+                                class="group flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/10 text-white transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:text-footblack">
+
+                                <i class="fa-brands fa-instagram text-base transition-transform duration-300 group-hover:scale-110"></i>
+
+                            </a>
+
+                            <a href="https://twitter.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="Twitter"
+                                class="group flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/10 text-white transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:text-footblack">
+
+                                <i class="fa-brands fa-x-twitter text-base transition-transform duration-300 group-hover:scale-110"></i>
+
+                            </a>
+
+                            <a href="https://www.pinterest.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="Pinterest"
+                                class="group flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/10 text-white transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:text-footblack">
+
+                                <i class="fa-brands fa-pinterest-p text-base transition-transform duration-300 group-hover:scale-110"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
-    
-        <div class="mx-auto mt-4 h-px w-1/3 bg-gradient-to-r from-transparent via-white to-transparent opacity-80"></div>
-    
+
     </div>
-    </footer>
-    
+</footer>

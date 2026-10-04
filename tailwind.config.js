@@ -11,6 +11,9 @@ export default {
 
     theme: {
         extend: {
+            colors: {
+                footblack: "#051e33",
+            },
             keyframes: {
                 marquee: {
                     "0%": { transform: "translateX(100%)" },

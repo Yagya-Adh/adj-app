@@ -78,7 +78,6 @@
 <body class="relative min-h-screen bg-[#FDFDFC] text-[#1b1b18]">
 
     <header class="relative text-sm font-semibold uppercase">
-        {{-- navigation routes --}}
         @include('client.pray-for-nepal')
         @include('client.navbar')
     </header>
