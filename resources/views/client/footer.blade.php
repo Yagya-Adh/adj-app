@@ -23,9 +23,9 @@
                         Mail Us
                     </p>
 
-                    <a href="mailto:jewelleryz@nexoy.com"
+                    <a href="mailto:Ankitdhakal242@gmail.com"
                         class="text-base font-medium text-white transition-colors duration-300 hover:text-white/70 md:text-lg">
-                        jewelleryz@nexoy.com
+                        Ankitdhakal242@gmail.com
                     </a>
 
                 </div>

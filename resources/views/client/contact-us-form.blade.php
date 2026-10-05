@@ -31,7 +31,7 @@
                     </h3>
                 </div>
 
-                <form action="#" method="POST" class="space-y-7">
+                <form action="{{route('contact.store')}}" method="POST" class="space-y-7">
                     @csrf
 
                     <div class="grid gap-7 sm:grid-cols-2">

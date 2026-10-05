@@ -265,15 +265,13 @@
                     @endforeach
 
                 </div>
-
-                <a
-                    href="{{ route('home') }}"
-                    class="absolute left-1/2 top-1/2 z-[52] -translate-x-1/2 -translate-y-1/2 rounded-xl border border-white/50 bg-white/40 p-1 shadow-lg shadow-black/5 backdrop-blur-md transition-transform duration-200 hover:scale-105 sm:p-1.5"
-                    aria-label="Home"
-                >
-                    <x-application-logo class="h-9 w-9 sm:h-10 sm:w-10 lg:h-11 lg:w-11" />
-                </a>
-
+                        <a
+                            href="{{ route('home') }}"
+                            class="absolute left-1/2 top-2/3 z-[52] flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-xl border border-white/70 bg-white p-1 shadow-lg shadow-black/10 transition-transform duration-200 hover:scale-105 sm:p-1.5"
+                            aria-label="Home"
+                        >
+                            <x-application-logo class="h-9 w-9 object-contain sm:h-10 sm:w-10 lg:h-14 lg:w-14" />
+                        </a> 
                 <div class="ml-auto hidden items-center lg:flex">
 
                     <button
