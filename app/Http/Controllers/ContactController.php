@@ -7,6 +7,14 @@ use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
+    public function index()
+    {
+        $contacts = Contact::latest()->paginate(10);
+        return view('admin.contact.index', compact('contacts'));
+    }
+
+
+
     public function store(Request $request)
     {
         $validated = $request->validate([
