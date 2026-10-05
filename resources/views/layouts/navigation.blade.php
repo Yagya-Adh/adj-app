@@ -160,41 +160,44 @@
 
             {{-- Collections --}}
             <a
-                href="#"
-                class="group relative flex items-center gap-3 rounded-2xl px-3.5 py-3 text-sm font-semibold transition-all duration-200
+            href="{{ route('admin.collections.index') }}"
+            class="group relative flex items-center gap-3 rounded-2xl px-3.5 py-3 text-sm font-semibold transition-all duration-200
+            {{ request()->routeIs('collections.*')
+                ? 'bg-slate-950 text-white shadow-lg shadow-slate-950/15'
+                : 'text-slate-600 hover:bg-slate-50 hover:text-slate-950' }}"
+        >
+
+            @if(request()->routeIs('collections.*'))
+                <span class="absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full bg-white"></span>
+            @endif
+
+            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl
                 {{ request()->routeIs('collections.*')
-                    ? 'bg-slate-950 text-white shadow-lg shadow-slate-950/15'
-                    : 'text-slate-600 hover:bg-slate-50 hover:text-slate-950' }}"
-            >
+                    ? 'bg-white/10'
+                    : 'bg-slate-100 group-hover:bg-white group-hover:shadow-sm' }}">
 
-                @if(request()->routeIs('collections.*'))
-                    <span class="absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full bg-white"></span>
-                @endif
-
-                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl
+                <svg
+                    class="h-[18px] w-[18px]
                     {{ request()->routeIs('collections.*')
-                        ? 'bg-white/10'
-                        : 'bg-slate-100 group-hover:bg-white group-hover:shadow-sm' }}">
+                        ? 'text-white'
+                        : 'text-slate-400 group-hover:text-slate-800' }}"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.8"
+                        d="M4 6h16M4 12h16M4 18h16"
+                    />
+                </svg>
 
-                    <svg
-                        class="h-[18px] w-[18px] {{ request()->routeIs('collections.*') ? 'text-white' : 'text-slate-400 group-hover:text-slate-800' }}"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="1.8"
-                            d="M4 6h16M4 12h16M4 18h16"
-                        />
-                    </svg>
+            </span>
 
-                </span>
+            <span>Collections</span>
 
-                <span>Collections</span>
-
-            </a>
+        </a>
 
         </div>
 

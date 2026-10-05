@@ -295,5 +295,5 @@
     </div>
 
 </section>
-
+@include('client.latest')
 @endsection 
