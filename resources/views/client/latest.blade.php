@@ -1,6 +1,6 @@
 <section class="mx-auto max-w-[1800px] px-5 py-20 md:px-10 md:py-28 lg:px-16">
 
-    <div class="mb-16 text-center">
+    <div class="mb-16 text-center animate-fade-in-up">
 
         <span class="mb-6 block text-xs font-medium uppercase tracking-[0.5em] text-neutral-400">
             The New Edit
@@ -24,7 +24,7 @@
         @forelse ($collections as $collection)
 
             <a
-                href="#"
+                href="{{ route('category.show', ['slug' => Str::slug($collection->category)]) }}"
                 class="group block w-full sm:w-[calc(50%-1rem)] lg:w-[calc(25%-1.5rem)]"
             >
 

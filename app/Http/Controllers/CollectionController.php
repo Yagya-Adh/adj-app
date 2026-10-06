@@ -2,63 +2,61 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Collection;
 
 class CollectionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-      
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function show(string $slug)
     {
-        //
+        $categories = [
+            'rings' => [
+                'name' => 'Rings',
+                'image' => 'build/rings.avif',
+            ],
+            'ear-rings' => [
+                'name' => 'Ear Rings',
+                'image' => 'build/ear-rings.avif',
+            ],
+            'bracelets' => [
+                'name' => 'Bracelets',
+                'image' => 'build/bracelets.avif',
+            ],
+            'necklace' => [
+                'name' => 'Necklace',
+                'image' => 'build/necklace.avif',
+            ],
+        ];
+
+        $slug = strtolower($slug);
+
+        abort_unless(isset($categories[$slug]), 404);
+
+        $category = $categories[$slug];
+
+        $collections = Collection::whereRaw(
+            'LOWER(category) = ?',
+            [strtolower($category['name'])]
+        )->get();
+
+        return view('category', [
+            'category' => $category,
+            'collections' => $collections,
+            'slug' => $slug,
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function only_read(string $slug, int $id)
     {
-        //
-    }
+        $collection = Collection::findOrFail($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return view('only-read', [
+            'collection' => $collection,
+            'slug' => $slug,
+        ]);
     }
 }

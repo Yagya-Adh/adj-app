@@ -4,38 +4,15 @@ use App\Http\Controllers\BlogController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CollectionController;
 
 Route::get('/',[HomeController::class,'index'])->name('home');
 
 Route::view('/collection', 'collections')->name('collections');
-
-Route::get('/category/{slug}', function (string $slug) {
-    $categories = [
-        'rings' => [
-            'name' => 'Rings',
-            'image' => 'build/rings.avif',
-        ],
-        'ear-rings' => [
-            'name' => 'Ear Rings',
-            'image' => 'build/ear-rings.avif',
-        ],
-        'bracelets' => [
-            'name' => 'Bracelets',
-            'image' => 'build/bracelets.avif',
-        ],
-        'necklace' => [
-            'name' => 'Necklace',
-            'image' => 'build/necklace.avif',
-        ],
-    ];
-
-    abort_unless(isset($categories[$slug]), 404);
-
-    return view('category', [
-        'category' => $categories[$slug],
-        'slug' => $slug,
-    ]);
-})->name('category.show');
+Route::get('/category/{slug}', [CollectionController::class, 'show'])
+    ->name('category.show');
+Route::get('/category/{slug}/{id}', [CollectionController::class, 'only_read'])
+    ->name('category.only');
 
 Route::view('/contact-us', 'contact-us')->name('contact-us');
 

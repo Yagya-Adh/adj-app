@@ -29,7 +29,7 @@
 
         <div class="mt-auto max-w-2xl pb-14 sm:pb-16">
 
-            <p class="mb-5 text-[10px] font-semibold uppercase tracking-[0.3em] text-white/60">
+            <p class="mb-5 text-[10px] md:text-xl font-semibold uppercase tracking-[0.3em] text-white/60">
                 Get In Touch
             </p>
 
@@ -37,7 +37,7 @@
                 Let's Talk.
             </h1>
 
-            <p class="mt-6 max-w-lg text-sm leading-7 text-white/70 sm:text-base">
+            <p class="mt-6 max-w-lg text-sm md:text-xl leading-7 text-white/70 sm:text-base">
                 Have a question, an idea, or simply want to know more?
                 We'd love to hear from you.
             </p>
