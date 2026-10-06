@@ -48,7 +48,7 @@
                     </p>
 
                     <p class="text-base font-medium text-white md:text-lg">
-                        Bharatpur, Chitwan, Nepal
+                        Bharatpur -09, Hakimchowk, Chitwan
                     </p>
 
                 </div>
@@ -60,7 +60,7 @@
                     <p class="text-center text-xs font-medium tracking-wide text-white/60 md:text-left md:text-sm">
                         ©
                         <span x-data="{ year: new Date().getFullYear() }" x-text="year"></span>
-                        <span class="font-semibold text-white">Jewelleryz</span>.
+                        <span class="font-semibold text-white">Adjewellers</span>.
                         All rights reserved.
                     </p>
                     <div class="flex flex-col items-center gap-4 sm:flex-row">

@@ -18,8 +18,6 @@
         </div>
 
         <div class="grid overflow-hidden rounded-[2rem] border border-black/10 bg-white shadow-[0_20px_70px_rgba(0,0,0,0.06)] lg:grid-cols-2">
-
-            {{-- Form --}}
             <div class="p-7 sm:p-10 md:p-14 lg:p-16">
                 <div class="mb-10">
                     <span class="text-[10px] font-medium uppercase tracking-[0.25em] text-gray-400">
