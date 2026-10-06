@@ -1,12 +1,13 @@
 <?php
 
+use App\Http\Controllers\BlogController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 
 Route::get('/',[HomeController::class,'index'])->name('home');
 
-Route::view('/collections', 'collections')->name('collections');
+Route::view('/collection', 'collections')->name('collections');
 
 Route::get('/category/{slug}', function (string $slug) {
     $categories = [
@@ -40,8 +41,9 @@ Route::view('/contact-us', 'contact-us')->name('contact-us');
 
 Route::post('/contact', [ContactController::class, 'store'])
     ->name('contact.store');
-
-Route::view('/blog', 'blog')->name('blog');
+/* blogs */
+Route::get('blogs',[BlogController::class,'index'])->name('blogs');
+Route::get('/blogs/{id}', [BlogController::class, 'show'])->name('blogs.show');
 
 Route::view('/shop', 'shop')->name('shop');
 

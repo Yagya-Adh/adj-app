@@ -45,12 +45,8 @@
                                 No Image
                             </span>
                         </div>
-
                     @endif
-
-
                     @if ($collection->category)
-
                         <div class="absolute inset-0 flex items-center justify-center">
 
                             <div class="w-full px-5 text-center text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
@@ -58,27 +54,16 @@
                                 <h3 class="break-words font-serif text-6xl font-normal uppercase leading-[0.8] tracking-[0.02em] sm:text-7xl md:text-8xl lg:text-[7rem]">
                                     {{ $collection->category }}
                                 </h3>
-
                                 <div class="mx-auto mt-8 h-px w-16 bg-white transition-all duration-700 group-hover:w-32"></div>
-
                             </div>
-
                         </div>
-
                     @endif
-
-
                     @if ($collection->is_sale && $collection->discount)
-
                         <span class="absolute left-5 top-5 bg-white px-4 py-3 text-xs font-medium uppercase tracking-[0.2em] text-black">
                             {{ $collection->discount }}% Off
                         </span>
-
                     @endif
-
-
                     <div class="absolute inset-x-0 bottom-0 translate-y-full transition duration-500 group-hover:translate-y-0">
-
                         <div class="flex items-center justify-between bg-white/90 px-5 py-5 backdrop-blur-xl">
 
                             <span class="text-xs font-medium uppercase tracking-[0.25em]">
@@ -88,14 +73,9 @@
                             <span class="flex h-10 w-10 items-center justify-center rounded-full border border-black transition group-hover:bg-black group-hover:text-white">
                                 →
                             </span>
-
                         </div>
-
                     </div>
-
                 </div>
-
-
                 <div class="pt-6">
 
                     <div class="flex items-start justify-between gap-5">
@@ -109,10 +89,7 @@
                             <h4 class="truncate font-serif text-2xl tracking-tight text-black md:text-3xl">
                                 {{ $collection->name }}
                             </h4>
-
                         </div>
-
-
                         <div class="shrink-0 text-right">
 
                             @if ($collection->is_sale)
@@ -132,12 +109,8 @@
                                 </p>
 
                             @endif
-
                         </div>
-
                     </div>
-
-
                     @if ($collection->is_sale && $collection->discount)
 
                         <div class="mt-4 flex items-center gap-3">
@@ -151,13 +124,9 @@
                             <span class="text-xs uppercase tracking-[0.2em] text-neutral-400">
                                 Limited Offer
                             </span>
-
                         </div>
-
                     @endif
-
                 </div>
-
             </a>
 
         @empty
@@ -189,8 +158,6 @@
                 </a>
 
             @endif
-
-
             @foreach ($collections->getUrlRange(1, $collections->lastPage()) as $page => $url)
 
                 @if ($page == $collections->currentPage())
@@ -198,9 +165,7 @@
                     <span class="flex h-11 min-w-11 items-center justify-center bg-black px-3 text-sm text-white">
                         {{ $page }}
                     </span>
-
                 @else
-
                     <a
                         href="{{ $url }}"
                         class="flex h-11 min-w-11 items-center justify-center border border-neutral-200 px-3 text-sm transition hover:border-black hover:bg-black hover:text-white"
@@ -209,10 +174,7 @@
                     </a>
 
                 @endif
-
             @endforeach
-
-
             @if ($collections->nextPageUrl())
 
                 <a
@@ -221,11 +183,7 @@
                 >
                     →
                 </a>
-
             @endif
-
         </div>
-
     @endif
-
 </section>

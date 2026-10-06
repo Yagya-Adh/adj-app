@@ -198,7 +198,47 @@
             <span>Collections</span>
 
         </a>
-
+        <a
+        href="{{ route('admin.blog.index') }}"
+        class="group relative flex items-center gap-3 rounded-2xl px-3.5 py-3 text-sm font-semibold transition-all duration-200
+        {{ request()->routeIs('admin.blog.*')
+            ? 'bg-slate-950 text-white shadow-lg shadow-slate-950/15'
+            : 'text-slate-600 hover:bg-slate-50 hover:text-slate-950' }}"
+    >
+        @if(request()->routeIs('admin.blog.*'))
+            <span class="absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full bg-white"></span>
+        @endif
+    
+        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl
+            {{ request()->routeIs('admin.blog.*')
+                ? 'bg-white/10'
+                : 'bg-slate-100 group-hover:bg-white group-hover:shadow-sm' }}">
+    
+            <svg
+                class="h-[18px] w-[18px]
+                {{ request()->routeIs('admin.blog.*')
+                    ? 'text-white'
+                    : 'text-slate-400 group-hover:text-slate-800' }}"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.8"
+                    d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h8l6 6v8a2 2 0 01-2 2zM13 4v6h6M7 14h6M7 17h5"
+                />
+            </svg>
+    
+        </span>
+    
+        <span>Blog</span>
+    
+        @if(request()->routeIs('admin.blog.*'))
+            <span class="ml-auto h-1.5 w-1.5 rounded-full bg-white"></span>
+        @endif
+    </a>
         </div>
 
 

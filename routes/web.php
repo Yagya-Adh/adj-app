@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminBlogController;
 use App\Http\Controllers\Admin\AdminCollectionController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
@@ -24,6 +25,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('collections', AdminCollectionController::class)
         ->only(['index', 'create', 'store','edit', 'update', 'destroy'])
         ->names('admin.collections');
+        
+        Route::resource('blog', AdminBlogController::class)->names('admin.blog');
 }); 
 
 require __DIR__.'/auth.php';

@@ -24,9 +24,9 @@
 
     $navItems = [
         ['name' => 'Home', 'route' => 'home'],
-        ['name' => 'Collections', 'route' => 'collections', 'dropdown' => true],
+        ['name' => 'Collections', 'route' => 'collection', 'dropdown' => true],
         ['name' => 'Contact Us', 'route' => 'contact-us'],
-        ['name' => 'Blog', 'route' => 'blog', 'special' => true],
+        ['name' => 'Blogs', 'route' => 'blogs', 'special' => true],
         ['name' => 'Shop', 'route' => 'shop', 'special' => true],
         ['name' => 'FAQ', 'route' => 'faq', 'special' => true],
     ];
