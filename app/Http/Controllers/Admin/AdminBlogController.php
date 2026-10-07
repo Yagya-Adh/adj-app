@@ -25,32 +25,56 @@ class AdminBlogController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'description' => 'required|string',
-            'customer' => 'nullable|string|max:255',
-            'customer_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'media' => 'nullable|array',
-            'media.*' => 'image|mimes:jpg,jpeg,png,webp|max:5120',
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string'],
+            'author' => ['nullable', 'string', 'max:255'],
+
+            'author_image' => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:2048',
+            ],
+
+            'media' => ['required', 'in:image,video'],
+
+            'image' => [
+                'nullable',
+                'required_if:media,image',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:5120',
+            ],
+
+            'video' => [
+                'nullable',
+                'required_if:media,video',
+                'file',
+                'mimes:mp4,webm,mov,avi',
+                'max:102400',
+            ],
         ]);
 
         $validated['slug'] = $this->generateUniqueSlug($validated['title']);
 
-        if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')
+        if ($request->hasFile('author_image')) {
+            $validated['author_image'] = $request
+                ->file('author_image')
+                ->store('blogs/authors', 'public');
+        }
+
+        if ($validated['media'] === 'image') {
+            $validated['image'] = $request
+                ->file('image')
                 ->store('blogs', 'public');
-        }
 
-        if ($request->hasFile('customer_image')) {
-            $validated['customer_image'] = $request->file('customer_image')
-                ->store('blogs/customers', 'public');
-        }
+            $validated['video'] = null;
+        } else {
+            $validated['video'] = $request
+                ->file('video')
+                ->store('blogs/videos', 'public');
 
-        if ($request->hasFile('media')) {
-            $validated['media'] = collect($request->file('media'))
-                ->map(fn ($file) => $file->store('blogs/media', 'public'))
-                ->values()
-                ->toArray();
+            $validated['image'] = null;
         }
 
         Blog::create($validated);
@@ -73,15 +97,32 @@ class AdminBlogController extends Controller
     public function update(Request $request, Blog $blog)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'description' => 'required|string',
-            'customer' => 'nullable|string|max:255',
-            'customer_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'media' => 'nullable|array',
-            'media.*' => 'image|mimes:jpg,jpeg,png,webp|max:5120',
-            'remove_media' => 'nullable|array',
-            'remove_media.*' => 'string',
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string'],
+            'author' => ['nullable', 'string', 'max:255'],
+
+            'author_image' => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:2048',
+            ],
+
+            'media' => ['required', 'in:image,video'],
+
+            'image' => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:5120',
+            ],
+
+            'video' => [
+                'nullable',
+                'file',
+                'mimes:mp4,webm,mov,avi',
+                'max:102400',
+            ],
         ]);
 
         $validated['slug'] = $this->generateUniqueSlug(
@@ -89,44 +130,43 @@ class AdminBlogController extends Controller
             $blog->id
         );
 
-        if ($request->hasFile('image')) {
-            $this->deleteFile($blog->image);
+        if ($request->hasFile('author_image')) {
+            $this->deleteFile($blog->author_image);
 
-            $validated['image'] = $request->file('image')
-                ->store('blogs', 'public');
+            $validated['author_image'] = $request
+                ->file('author_image')
+                ->store('blogs/authors', 'public');
+        } else {
+            $validated['author_image'] = $blog->author_image;
         }
 
-        if ($request->hasFile('customer_image')) {
-            $this->deleteFile($blog->customer_image);
+        if ($validated['media'] === 'image') {
+            $this->deleteFile($blog->video);
+            $validated['video'] = null;
 
-            $validated['customer_image'] = $request->file('customer_image')
-                ->store('blogs/customers', 'public');
-        }
+            if ($request->hasFile('image')) {
+                $this->deleteFile($blog->image);
 
-        $media = $blog->media ?? [];
-
-        if ($request->filled('remove_media')) {
-            foreach ($request->remove_media as $file) {
-                if (in_array($file, $media)) {
-                    $this->deleteFile($file);
-                }
+                $validated['image'] = $request
+                    ->file('image')
+                    ->store('blogs', 'public');
+            } else {
+                $validated['image'] = $blog->image;
             }
+        } else {
+            $this->deleteFile($blog->image);
+            $validated['image'] = null;
 
-            $media = array_values(
-                array_diff($media, $request->remove_media)
-            );
+            if ($request->hasFile('video')) {
+                $this->deleteFile($blog->video);
+
+                $validated['video'] = $request
+                    ->file('video')
+                    ->store('blogs/videos', 'public');
+            } else {
+                $validated['video'] = $blog->video;
+            }
         }
-
-        if ($request->hasFile('media')) {
-            $newMedia = collect($request->file('media'))
-                ->map(fn ($file) => $file->store('blogs/media', 'public'))
-                ->values()
-                ->toArray();
-
-            $media = array_merge($media, $newMedia);
-        }
-
-        $validated['media'] = $media ?: null;
 
         $blog->update($validated);
 
@@ -138,11 +178,8 @@ class AdminBlogController extends Controller
     public function destroy(Blog $blog)
     {
         $this->deleteFile($blog->image);
-        $this->deleteFile($blog->customer_image);
-
-        foreach ($blog->media ?? [] as $file) {
-            $this->deleteFile($file);
-        }
+        $this->deleteFile($blog->video);
+        $this->deleteFile($blog->author_image);
 
         $blog->delete();
 
@@ -151,15 +188,20 @@ class AdminBlogController extends Controller
             ->with('success', 'Blog deleted successfully.');
     }
 
-    private function generateUniqueSlug(string $title, ?int $ignoreId = null): string
-    {
+    private function generateUniqueSlug(
+        string $title,
+        ?int $ignoreId = null
+    ): string {
         $slug = Str::slug($title);
         $originalSlug = $slug;
         $counter = 1;
 
         while (
             Blog::where('slug', $slug)
-                ->when($ignoreId, fn ($query) => $query->where('id', '!=', $ignoreId))
+                ->when(
+                    $ignoreId,
+                    fn ($query) => $query->where('id', '!=', $ignoreId)
+                )
                 ->exists()
         ) {
             $slug = $originalSlug . '-' . $counter++;
@@ -174,4 +216,4 @@ class AdminBlogController extends Controller
             Storage::disk('public')->delete($path);
         }
     }
-}
+} 

@@ -9,14 +9,11 @@ class Blog extends Model
     protected $fillable = [
         'title',
         'image',
+        'video',
         'slug',
         'description',
-        'customer',
-        'customer_image',
+        'author',
+        'author_image',
         'media',
-    ];
-
-    protected $casts = [
-        'media' => 'array',
     ];
 }

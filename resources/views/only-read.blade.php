@@ -3,8 +3,6 @@
 @section('content')
 
 <div class="bg-[#f7f5f0] text-gray-900">
-
-```
 <section class="border-b border-black/5 bg-[#fbfaf7] py-16 md:py-24">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 

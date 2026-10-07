@@ -4,12 +4,11 @@
 
 <article class="overflow-hidden bg-[#f8f7f4] text-gray-900">
 
-    {{-- Header --}}
     <section class="px-4 pb-14 pt-20 sm:px-6 lg:px-8 lg:pb-20 lg:pt-28">
         <div class="mx-auto max-w-5xl text-center">
 
             <div class="mb-7 flex items-center justify-center gap-3 text-[10px] font-semibold uppercase tracking-[0.3em] text-gray-400">
-                <span>{{ $blog->category ?? 'Journal' }}</span>
+                <span>Journal</span>
 
                 <span class="h-1 w-1 rotate-45 bg-gray-400"></span>
 
@@ -26,44 +25,67 @@
                 </p>
             @endif
 
-            @if($blog->customer)
+            @if($blog->author)
+
                 <div class="mt-10 inline-flex items-center gap-3 border-t border-gray-200 pt-6">
 
-                    @if($blog->customer_image)
+                    @if($blog->author_image)
+
                         <img
-                            src="{{ asset('storage/' . $blog->customer_image) }}"
-                            alt="{{ $blog->customer }}"
+                            src="{{ asset('storage/' . $blog->author_image) }}"
+                            alt="{{ $blog->author }}"
                             class="h-11 w-11 rounded-full object-cover"
                         >
+
                     @else
+
                         <div class="flex h-11 w-11 items-center justify-center rounded-full bg-gray-900 text-sm font-medium text-white">
-                            {{ strtoupper(substr($blog->customer, 0, 1)) }}
+                            {{ strtoupper(substr($blog->author, 0, 1)) }}
                         </div>
+
                     @endif
 
                     <div class="text-left">
+
                         <p class="text-[9px] font-semibold uppercase tracking-[0.25em] text-gray-400">
                             Written by
                         </p>
 
                         <p class="mt-1 text-sm font-medium text-gray-900">
-                            {{ $blog->customer }}
+                            {{ $blog->author }}
                         </p>
+
                     </div>
 
                 </div>
+
             @endif
 
         </div>
     </section>
 
 
-    {{-- Featured Image --}}
     <section class="px-3 sm:px-6 lg:px-8">
 
         <div class="group relative mx-auto max-w-7xl overflow-hidden bg-gray-100">
 
-            @if($blog->image)
+            @if($blog->media === 'video' && $blog->video)
+
+                <video
+                    class="h-[420px] w-full object-cover transition duration-1000 group-hover:scale-[1.02] sm:h-[560px] lg:h-[720px]"
+                    controls
+                    playsinline
+                    preload="metadata"
+                >
+                    <source
+                        src="{{ asset('storage/' . $blog->video) }}"
+                        type="video/mp4"
+                    >
+
+                    Your browser does not support the video element.
+                </video>
+
+            @elseif($blog->media === 'image' && $blog->image)
 
                 <img
                     src="{{ asset('storage/' . $blog->image) }}"
@@ -77,7 +99,7 @@
 
                 <div class="flex h-[420px] items-center justify-center sm:h-[560px] lg:h-[720px]">
                     <span class="text-[10px] font-semibold uppercase tracking-[0.3em] text-gray-400">
-                        No Image
+                        No Media
                     </span>
                 </div>
 
@@ -88,35 +110,11 @@
     </section>
 
 
-    {{-- Article --}}
     <section class="px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
 
         <div class="mx-auto max-w-3xl">
 
-            @if($blog->content)
-
-                <div class="prose prose-lg max-w-none
-                    prose-headings:font-serif
-                    prose-headings:font-medium
-                    prose-headings:tracking-tight
-                    prose-headings:text-gray-900
-                    prose-p:my-7
-                    prose-p:leading-8
-                    prose-p:text-gray-600
-                    prose-a:text-gray-900
-                    prose-a:underline
-                    prose-a:underline-offset-4
-                    prose-blockquote:border-gray-300
-                    prose-blockquote:font-serif
-                    prose-blockquote:text-gray-800
-                    prose-img:w-full
-                    prose-img:rounded-none">
-
-                    {!! $blog->content !!}
-
-                </div>
-
-            @elseif($blog->description)
+            @if($blog->description)
 
                 <div class="text-base leading-8 text-gray-600 sm:text-lg">
                     {!! nl2br(e($blog->description)) !!}
@@ -129,71 +127,6 @@
     </section>
 
 
-    {{-- Media Gallery --}}
-    @if(!empty($blog->media))
-
-        <section class="px-4 pb-20 sm:px-6 lg:px-8 lg:pb-28">
-
-            <div class="mx-auto max-w-7xl">
-
-                <div class="mb-10 flex items-end justify-between border-b border-gray-200 pb-6">
-
-                    <div>
-                        <span class="text-[10px] font-semibold uppercase tracking-[0.3em] text-gray-400">
-                            Visual Journal
-                        </span>
-
-                        <h2 class="mt-3 font-serif text-3xl text-gray-900 sm:text-4xl">
-                            More from the story
-                        </h2>
-                    </div>
-
-                    <span class="hidden text-xs text-gray-400 sm:block">
-                        {{ count($blog->media) }} Images
-                    </span>
-
-                </div>
-
-
-                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-
-                    @foreach($blog->media as $media)
-
-                        <div
-                            class="group relative overflow-hidden bg-gray-100
-                            {{ $loop->first ? 'md:col-span-2' : '' }}"
-                        >
-
-                            <img
-                                src="{{ asset('storage/' . $media) }}"
-                                alt="{{ $blog->title }}"
-                                loading="lazy"
-                                class="w-full object-cover transition duration-1000 group-hover:scale-[1.025]
-                                {{ $loop->first
-                                    ? 'max-h-[760px]'
-                                    : 'aspect-[4/3]' }}"
-                            >
-
-                            <div class="pointer-events-none absolute inset-0 bg-black/0 transition duration-500 group-hover:bg-black/10"></div>
-
-                            <div class="absolute bottom-5 left-5 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-xs font-medium opacity-0 shadow-sm transition duration-500 group-hover:opacity-100">
-                                {{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}
-                            </div>
-
-                        </div>
-
-                    @endforeach
-
-                </div>
-
-            </div>
-
-        </section>
-
-    @endif
-
-
-    {{-- Closing Quote / Story End --}}
     <section class="px-4 pb-20 sm:px-6 lg:px-8 lg:pb-28">
 
         <div class="mx-auto max-w-4xl border-y border-gray-200 py-14 text-center sm:py-20">
@@ -215,7 +148,6 @@
     </section>
 
 
-    {{-- Footer --}}
     <section class="border-t border-gray-200 px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
 
         <div class="mx-auto flex max-w-7xl flex-col justify-between gap-8 sm:flex-row sm:items-center">
@@ -235,7 +167,6 @@
 
             </a>
 
-
             <div class="text-left sm:text-right">
 
                 <span class="block text-[9px] font-semibold uppercase tracking-[0.3em] text-gray-400">
@@ -254,4 +185,4 @@
 
 </article>
 
-@endsection
+@endsection 

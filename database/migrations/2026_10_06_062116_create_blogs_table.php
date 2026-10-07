@@ -11,12 +11,13 @@ return new class extends Migration
         Schema::create('blogs', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('image')->nullable();
-            $table->string('slug')->unique();
             $table->text('description');
-            $table->string('customer')->nullable();
-            $table->string('customer_image')->nullable();
-            $table->json('media')->nullable();
+            $table->string('author')->nullable();
+            $table->string('author_image')->nullable();
+            $table->enum('media', ['image', 'video'])->default('image');
+            $table->string('image')->nullable();
+            $table->string('video')->nullable();
+            $table->string('slug')->unique();
             $table->timestamps();
         });
     }

@@ -1,6 +1,7 @@
 @extends('client.app')
 
 @section('content')
+
 <section class="relative min-h-[420px] overflow-hidden bg-gray-900 sm:min-h-[500px]">
 
     <img
@@ -50,11 +51,15 @@
         </div>
     </div>
 </section>
+
 <section class="bg-[#f8f7f4] px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+
     <div class="mx-auto max-w-7xl">
 
         <div class="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+
             <div class="max-w-2xl">
+
                 <span class="mb-4 inline-block text-[11px] font-medium uppercase tracking-[0.3em] text-gray-500">
                     Our Journal
                 </span>
@@ -67,17 +72,10 @@
                     Discover thoughtful stories, expert insights and timeless inspiration
                     from our latest journal.
                 </p>
+
             </div>
 
-            <a href="#"
-               class="group inline-flex w-fit items-center gap-3 border-b border-gray-300 pb-2 text-sm font-medium text-gray-800 transition hover:border-gray-900">
-                Explore Journal
-                <span class="transition-transform duration-300 group-hover:translate-x-1">
-                    →
-                </span>
-            </a>
         </div>
-
 
         @if($blogs->count())
 
@@ -87,17 +85,38 @@
 
                     <article class="group">
 
-                        <a href="{{ route('blogs.show', $blog->id) }}"
-                           class="relative block overflow-hidden bg-gray-100">
+                        <a
+                            href="{{ route('blogs.show', $blog->id) }}"
+                            class="relative block overflow-hidden bg-gray-100"
+                        >
 
                             <div class="aspect-[4/5] overflow-hidden">
 
-                                <img
-                                    src="{{ $blog->image ? asset('storage/' . $blog->image) : asset('build/assets/noimage.png') }}"
-                                    alt="{{ $blog->title }}"
-                                    loading="lazy"
-                                    class="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-105"
-                                >
+                                @if($blog->media === 'video' && $blog->video)
+
+                                    <video
+                                        class="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-105"
+                                        muted
+                                        loop                                        
+                                        playsinline
+                                        preload="metadata"
+                                    >
+                                        <source
+                                            src="{{ asset('storage/' . $blog->video) }}"
+                                            type="video/mp4"
+                                        >
+                                    </video>
+
+                                @else
+
+                                    <img
+                                        src="{{ $blog->image ? asset('storage/' . $blog->image) : asset('build/assets/noimage.png') }}"
+                                        alt="{{ $blog->title }}"
+                                        loading="lazy"
+                                        class="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-105"
+                                    >
+
+                                @endif
 
                             </div>
 
@@ -123,13 +142,12 @@
 
                         </a>
 
-
                         <div class="pt-6">
 
                             <div class="mb-4 flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.16em] text-gray-500">
 
                                 <span>
-                                    {{ $blog->category ?? 'Journal' }}
+                                    Journal
                                 </span>
 
                                 <span class="h-1 w-1 rotate-45 bg-gray-400"></span>
@@ -140,16 +158,16 @@
 
                             </div>
 
-
-                            <a href="{{ route('blogs.show', $blog->id) }}"
-                               class="block">
+                            <a
+                                href="{{ route('blogs.show', $blog->id) }}"
+                                class="block"
+                            >
 
                                 <h2 class="font-serif text-2xl leading-tight text-gray-900 transition-colors duration-300 group-hover:text-gray-600 sm:text-[26px]">
                                     {{ $blog->title }}
                                 </h2>
 
                             </a>
-
 
                             @if($blog->description)
 
@@ -159,15 +177,16 @@
 
                             @endif
 
-
                             <div class="mt-6 h-px w-full overflow-hidden bg-gray-200">
 
                                 <div class="h-full w-0 bg-gray-900 transition-all duration-700 group-hover:w-full"></div>
 
                             </div>
 
-                            <a href="{{ route('blogs.show', $blog->id) }}"
-                               class="group/link mt-5 inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] text-gray-800">
+                            <a
+                                href="{{ route('blogs.show', $blog->id) }}"
+                                class="group/link mt-5 inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] text-gray-800"
+                            >
 
                                 <span>
                                     View Details
@@ -187,7 +206,6 @@
 
             </div>
 
-
             <div class="mt-16">
                 {{ $blogs->links() }}
             </div>
@@ -195,7 +213,9 @@
         @else
 
             <div class="flex min-h-[350px] items-center justify-center border border-dashed border-gray-300">
+
                 <div class="text-center">
+
                     <h2 class="font-serif text-2xl text-gray-900">
                         No stories found
                     </h2>
@@ -203,12 +223,15 @@
                     <p class="mt-2 text-sm text-gray-500">
                         Check back soon for new articles and inspiration.
                     </p>
+
                 </div>
+
             </div>
 
         @endif
 
     </div>
+
 </section>
 
-@endsection
+@endsection 
