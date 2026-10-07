@@ -35,67 +35,78 @@
     $specialItems = collect($navItems)->filter(fn ($item) => !empty($item['special']));
 @endphp
 
-<div
-    x-data="{
-        asideOpen: false,
-        mobileOpen: false,
-        collectionOpen: false,
-        mobileCollectionOpen: false,
+<style>
+    [data-hidden="true"] {
+        display: none !important;
+    }
 
-        closeAll() {
-            this.asideOpen = false;
-            this.mobileOpen = false;
-            this.collectionOpen = false;
-            this.mobileCollectionOpen = false;
-        },
+    .js-rotate-180 {
+        transform: rotate(180deg);
+    }
 
-        toggleMobile() {
-            this.mobileOpen = !this.mobileOpen;
-            this.asideOpen = false;
-            this.collectionOpen = false;
-        },
+    .js-scale-x-100 {
+        transform: scaleX(1) !important;
+    }
 
-        openAside() {
-            this.asideOpen = true;
-            this.mobileOpen = false;
-            this.collectionOpen = false;
-        }
-    }"
-    x-effect="
-        document.body.classList.toggle(
-            'overflow-hidden',
-            asideOpen || mobileOpen
-        )
-    "
-    @keydown.escape.window="closeAll()"
-    class="container mx-auto"
->
+    .js-mobile-open {
+        max-height: 80vh;
+        opacity: 1;
+    }
+
+    .js-aside-open {
+        visibility: visible !important;
+        pointer-events: auto !important;
+    }
+
+    .js-overlay-visible {
+        opacity: 1 !important;
+    }
+
+    .js-aside-visible {
+        transform: translateX(0) !important;
+    }
+
+    body.nav-locked {
+        overflow: hidden;
+    }
+</style>
+
+<div id="navbar-wrapper" class="container mx-auto">
 
     <nav
         id="main-navbar"
         class="fixed left-0 top-0 z-50 w-full border-b border-white/30 bg-white/90 shadow-xl shadow-black/5 backdrop-blur-xl backdrop-saturate-150"
     >
+
         <div class="relative overflow-visible">
+
             <div class="container relative mx-auto flex h-16 items-center justify-between px-3 sm:h-[4.5rem] sm:px-5 lg:h-20 lg:px-8">
+
+                {{-- Desktop Navigation --}}
                 <div class="hidden items-center gap-1 lg:flex">
+
                     @foreach ($normalItems as $item)
+
                         @if (!empty($item['dropdown']))
+
                             <div
+                                id="collection-dropdown-wrapper"
                                 class="relative"
-                                @mouseenter="collectionOpen = true"
                             >
 
                                 <button
+                                    id="collection-dropdown-button"
                                     type="button"
-                                    @click="collectionOpen = !collectionOpen"
-                                    class="nav-link group relative flex items-center gap-1 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-600 transition-colors duration-200 hover:text-gray-500 xl:px-4 uppercase"
+                                    class="nav-link group relative flex items-center gap-1 rounded-xl px-3 py-2.5 text-sm font-medium uppercase text-gray-600 transition-colors duration-200 hover:text-gray-500 xl:px-4"
+                                    aria-expanded="false"
+                                    aria-haspopup="true"
                                 >
 
                                     <span>{{ $item['name'] }}</span>
 
                                     <svg
+                                        id="collection-arrow"
                                         class="h-3.5 w-3.5 transition-transform duration-200"
-                                        :class="collectionOpen ? 'rotate-180' : ''"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
@@ -109,23 +120,17 @@
                                     </svg>
 
                                     <span
-                                        class="absolute bottom-1 left-3 h-[2px] w-[calc(100%-1.5rem)] origin-left rounded-full bg-gray-500 transition-transform duration-300"
-                                        :class="collectionOpen ? 'scale-x-100' : 'scale-x-0'"
+                                        id="collection-underline"
+                                        class="absolute bottom-1 left-3 h-[2px] w-[calc(100%-1.5rem)] origin-left scale-x-0 rounded-full bg-gray-500 transition-transform duration-300"
                                     ></span>
 
                                 </button>
 
+                                {{-- Desktop Collection Dropdown --}}
                                 <div
-                                    x-show="collectionOpen"
-                                    x-cloak
-                                    @mouseleave="collectionOpen = false"
-                                    x-transition:enter="transition-all duration-250 ease-out"
-                                    x-transition:enter-start="translate-y-2 scale-95 opacity-0"
-                                    x-transition:enter-end="translate-y-0 scale-100 opacity-100"
-                                    x-transition:leave="transition-all duration-150 ease-in"
-                                    x-transition:leave-start="translate-y-0 scale-100 opacity-100"
-                                    x-transition:leave-end="translate-y-2 scale-95 opacity-0"
-                                    class="absolute left-1/2 top-full z-[70] mt-4 w-[680px] -translate-x-1/2 overflow-hidden rounded-[2rem] border border-white/60 bg-white/80 p-4 shadow-2xl shadow-black/10 backdrop-blur-2xl backdrop-saturate-150"
+                                    id="collection-dropdown"
+                                    data-hidden="true"
+                                    class="absolute left-1/2 top-full z-[70] mt-4 w-[680px] -translate-x-1/2 overflow-hidden rounded-[2rem] border border-white/60 bg-white/80 p-4 opacity-0 shadow-2xl shadow-black/10 backdrop-blur-2xl backdrop-saturate-150 transition-all duration-250"
                                 >
 
                                     <div class="mb-4 flex items-center justify-between px-2">
@@ -265,48 +270,55 @@
                     @endforeach
 
                 </div>
-                        <a
-                            href="{{ route('home') }}"
-                            class="absolute left-1/2 top-2/3 z-[52] flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-xl border border-white/70 bg-white p-1 shadow-lg shadow-black/10 transition-transform duration-200 hover:scale-105 sm:p-1.5"
-                            aria-label="Home"
-                        >
-                            <x-application-logo class="h-9 w-9 object-contain sm:h-10 sm:w-10 lg:h-14 lg:w-14" />
-                        </a> 
+
+                {{-- Center Logo --}}
+                <a
+                    href="{{ route('home') }}"
+                    class="absolute left-1/2 top-2/3 z-[52] flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-xl border border-white/70 bg-white p-1 shadow-lg shadow-black/10 transition-transform duration-200 hover:scale-105 sm:p-1.5"
+                    aria-label="Home"
+                >
+                    <x-application-logo class="h-9 w-9 object-contain sm:h-10 sm:w-10 lg:h-14 lg:w-14" />
+                </a>
+
+                {{-- Desktop Explore Button --}}
                 <div class="ml-auto hidden items-center lg:flex">
 
                     <button
-                    type="button"
-                    @click="openAside()"
-                    class="group flex items-center justify-center rounded-xl border border-white/30 bg-white/30 p-2.5 text-gray-600 shadow-sm backdrop-blur-md transition-all duration-200 hover:bg-white/50 hover:text-gray-500"
-                    aria-label="Open menu"
-                >
-                    <svg
-                        class="h-5 w-5 transition-transform duration-200 group-hover:scale-110"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
+                        id="desktop-aside-button"
+                        type="button"
+                        class="group flex items-center justify-center rounded-xl border border-white/30 bg-white/30 p-2.5 text-gray-600 shadow-sm backdrop-blur-md transition-all duration-200 hover:bg-white/50 hover:text-gray-500"
+                        aria-label="Open menu"
                     >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16"
-                        />
-                    </svg>
-                </button>
+
+                        <svg
+                            class="h-5 w-5 transition-transform duration-200 group-hover:scale-110"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16"
+                            />
+                        </svg>
+
+                    </button>
 
                 </div>
 
+                {{-- Mobile Menu Button --}}
                 <button
+                    id="mobile-menu-button"
                     type="button"
-                    @click="toggleMobile()"
                     class="ml-auto flex h-10 w-10 items-center justify-center rounded-xl border border-white/40 bg-white/30 text-gray-600 shadow-sm backdrop-blur-md transition-all duration-200 hover:bg-white/50 hover:text-gray-500 lg:hidden"
-                    :aria-expanded="mobileOpen"
+                    aria-expanded="false"
                     aria-label="Toggle navigation"
                 >
 
                     <svg
-                        x-show="!mobileOpen"
+                        id="mobile-menu-icon"
                         class="h-5 w-5"
                         fill="none"
                         stroke="currentColor"
@@ -321,9 +333,8 @@
                     </svg>
 
                     <svg
-                        x-show="mobileOpen"
-                        x-cloak
-                        class="h-5 w-5"
+                        id="mobile-close-icon"
+                        class="hidden h-5 w-5"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -340,16 +351,10 @@
 
             </div>
 
+            {{-- Mobile Navigation --}}
             <div
-                x-show="mobileOpen"
-                x-cloak
-                x-transition:enter="transition-all duration-300 ease-out"
-                x-transition:enter-start="max-h-0 opacity-0"
-                x-transition:enter-end="max-h-[80vh] opacity-100"
-                x-transition:leave="transition-all duration-200 ease-in"
-                x-transition:leave-start="max-h-[80vh] opacity-100"
-                x-transition:leave-end="max-h-0 opacity-0"
-                class="overflow-hidden border-t border-white/20 lg:hidden"
+                id="mobile-navigation"
+                class="max-h-0 overflow-hidden opacity-0 transition-all duration-300 ease-out lg:hidden"
             >
 
                 <div class="max-h-[70vh] overflow-y-auto px-3 py-3 sm:px-5 sm:py-4">
@@ -361,16 +366,17 @@
                             <div class="mb-1">
 
                                 <button
+                                    id="mobile-collection-button"
                                     type="button"
-                                    @click="mobileCollectionOpen = !mobileCollectionOpen"
                                     class="flex min-h-[48px] w-full items-center justify-between rounded-xl px-4 py-3 text-sm font-medium text-gray-600 transition-all duration-200 hover:bg-white/30 hover:text-gray-500"
+                                    aria-expanded="false"
                                 >
 
                                     <span>{{ $item['name'] }}</span>
 
                                     <svg
+                                        id="mobile-collection-arrow"
                                         class="h-4 w-4 transition-transform duration-200"
-                                        :class="mobileCollectionOpen ? 'rotate-180' : ''"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
@@ -386,17 +392,14 @@
                                 </button>
 
                                 <div
-                                    x-show="mobileCollectionOpen"
-                                    x-cloak
-                                    x-transition
-                                    class="flex flex-wrap gap-2 px-2 pb-2"
+                                    id="mobile-collection-menu"
+                                    class="hidden flex-wrap gap-2 px-2 pb-2"
                                 >
 
                                     @foreach ($collections as $collection)
 
                                         <a
                                             href="{{ route('category.show', $collection['slug']) }}"
-                                            @click="mobileOpen = false"
                                             class="group flex w-[calc(50%-4px)] flex-col overflow-hidden rounded-2xl border border-white/30 bg-white/20 p-2 transition-all duration-200 hover:bg-white/50"
                                         >
 
@@ -427,7 +430,6 @@
 
                             <a
                                 href="{{ route($item['route']) }}"
-                                @click="mobileOpen = false"
                                 class="mb-1 flex min-h-[48px] items-center rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200 {{ request()->routeIs($item['route']) ? 'bg-white/50 text-gray-900 shadow-sm' : 'text-gray-600 hover:bg-white/30 hover:text-gray-500' }}"
                             >
 
@@ -447,9 +449,10 @@
 
                     @endforeach
 
+                    {{-- Mobile Explore More --}}
                     <button
+                        id="mobile-aside-button"
                         type="button"
-                        @click="openAside()"
                         class="mt-2 flex min-h-[48px] w-full items-center justify-between rounded-xl border border-white/20 bg-white/20 px-4 py-3 text-sm font-semibold text-gray-600 transition-all duration-200 hover:bg-white/40 hover:text-gray-500"
                     >
 
@@ -479,41 +482,31 @@
 
     </nav>
 
+
+    {{-- Right Side Drawer --}}
     <div
-        x-show="asideOpen"
-        x-cloak
-        class="fixed inset-0 z-[60]"
+        id="aside-wrapper"
+        class="invisible pointer-events-none fixed inset-0 z-[60]"
         role="dialog"
         aria-modal="true"
     >
 
+        {{-- Overlay --}}
         <div
-            x-show="asideOpen"
-            x-transition:enter="transition-opacity duration-300 ease-out"
-            x-transition:enter-start="opacity-0"
-            x-transition:enter-end="opacity-100"
-            x-transition:leave="transition-opacity duration-200 ease-in"
-            x-transition:leave-start="opacity-100"
-            x-transition:leave-end="opacity-0"
-            @click="asideOpen = false"
-            class="absolute inset-0 bg-black/20 backdrop-blur-sm"
+            id="aside-overlay"
+            class="absolute inset-0 bg-black/20 opacity-0 backdrop-blur-sm transition-opacity duration-300"
         ></div>
 
+        {{-- Aside --}}
         <aside
-            x-show="asideOpen"
-            x-transition:enter="transform transition ease-out duration-300"
-            x-transition:enter-start="translate-x-full"
-            x-transition:enter-end="translate-x-0"
-            x-transition:leave="transform transition ease-in duration-200"
-            x-transition:leave-start="translate-x-0"
-            x-transition:leave-end="translate-x-full"
-            @click.stop
-            class="absolute right-2 top-2 z-[61] flex h-[calc(100vh-1rem)] w-[calc(100%-1rem)] flex-col overflow-hidden rounded-3xl border border-white/40 bg-white/30 shadow-2xl shadow-black/20 backdrop-blur-2xl backdrop-saturate-150 sm:right-4 sm:top-4 sm:h-[calc(100vh-2rem)] sm:w-96 sm:max-w-[calc(100%-2rem)]"
+            id="aside-panel"
+            class="absolute right-2 top-2 z-[61] flex h-[calc(100vh-1rem)] w-[calc(100%-1rem)] translate-x-full flex-col overflow-hidden rounded-3xl border border-white/40 bg-white/30 shadow-2xl shadow-black/20 backdrop-blur-2xl backdrop-saturate-150 transition-transform duration-300 ease-out sm:right-4 sm:top-4 sm:h-[calc(100vh-2rem)] sm:w-96 sm:max-w-[calc(100%-2rem)]"
         >
 
             <div class="flex shrink-0 items-center justify-between border-b border-white/30 px-5 py-4 sm:px-6 sm:py-5">
 
                 <div>
+
                     <p class="text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-400 sm:text-xs">
                         Explore
                     </p>
@@ -521,11 +514,12 @@
                     <h2 class="mt-1 text-lg font-bold text-gray-800 sm:text-xl">
                         Discover More
                     </h2>
+
                 </div>
 
                 <button
+                    id="aside-close-button"
                     type="button"
-                    @click="asideOpen = false"
                     class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/40 bg-white/30 text-gray-600 transition-all duration-200 hover:scale-105 hover:bg-white/60 hover:text-gray-800 sm:h-10 sm:w-10"
                     aria-label="Close sidebar"
                 >
@@ -578,7 +572,7 @@
                                 <path
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
-                                    stroke-width="2"
+                                    stroke-width="1.8"
                                     d="M9 5l7 7-7 7"
                                 />
                             </svg>
@@ -608,3 +602,383 @@
     </div>
 
 </div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const body = document.body;
+
+    /* Desktop Collection Dropdown */
+    const collectionButton = document.getElementById('collection-dropdown-button');
+    const collectionDropdown = document.getElementById('collection-dropdown');
+    const collectionArrow = document.getElementById('collection-arrow');
+    const collectionUnderline = document.getElementById('collection-underline');
+    const collectionWrapper = document.getElementById('collection-dropdown-wrapper');
+
+    /* Mobile Navigation */
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileNavigation = document.getElementById('mobile-navigation');
+    const mobileMenuIcon = document.getElementById('mobile-menu-icon');
+    const mobileCloseIcon = document.getElementById('mobile-close-icon');
+
+    /* Mobile Collection */
+    const mobileCollectionButton = document.getElementById('mobile-collection-button');
+    const mobileCollectionMenu = document.getElementById('mobile-collection-menu');
+    const mobileCollectionArrow = document.getElementById('mobile-collection-arrow');
+
+    /* Aside */
+    const desktopAsideButton = document.getElementById('desktop-aside-button');
+    const mobileAsideButton = document.getElementById('mobile-aside-button');
+    const asideWrapper = document.getElementById('aside-wrapper');
+    const asideOverlay = document.getElementById('aside-overlay');
+    const asidePanel = document.getElementById('aside-panel');
+    const asideCloseButton = document.getElementById('aside-close-button');
+
+
+    function openCollectionDropdown() {
+
+        if (!collectionDropdown) {
+            return;
+        }
+
+        collectionDropdown.setAttribute('data-hidden', 'false');
+
+        requestAnimationFrame(function () {
+            collectionDropdown.classList.remove('opacity-0');
+            collectionDropdown.classList.add('opacity-100');
+
+            collectionDropdown.classList.remove('translate-y-2');
+            collectionDropdown.classList.add('translate-y-0');
+
+            collectionDropdown.classList.remove('scale-95');
+            collectionDropdown.classList.add('scale-100');
+        });
+
+        if (collectionButton) {
+            collectionButton.setAttribute('aria-expanded', 'true');
+        }
+
+        if (collectionArrow) {
+            collectionArrow.classList.add('js-rotate-180');
+        }
+
+        if (collectionUnderline) {
+            collectionUnderline.classList.add('js-scale-x-100');
+        }
+    }
+
+
+    function closeCollectionDropdown() {
+
+        if (!collectionDropdown) {
+            return;
+        }
+
+        collectionDropdown.classList.remove('opacity-100');
+        collectionDropdown.classList.add('opacity-0');
+
+        collectionDropdown.classList.remove('translate-y-0');
+        collectionDropdown.classList.add('translate-y-2');
+
+        collectionDropdown.classList.remove('scale-100');
+        collectionDropdown.classList.add('scale-95');
+
+        if (collectionButton) {
+            collectionButton.setAttribute('aria-expanded', 'false');
+        }
+
+        if (collectionArrow) {
+            collectionArrow.classList.remove('js-rotate-180');
+        }
+
+        if (collectionUnderline) {
+            collectionUnderline.classList.remove('js-scale-x-100');
+        }
+
+        setTimeout(function () {
+            if (!collectionDropdown.classList.contains('opacity-100')) {
+                collectionDropdown.setAttribute('data-hidden', 'true');
+            }
+        }, 250);
+    }
+
+
+    function toggleCollectionDropdown() {
+
+        if (!collectionDropdown) {
+            return;
+        }
+
+        const isOpen =
+            collectionDropdown.getAttribute('data-hidden') === 'false';
+
+        if (isOpen) {
+            closeCollectionDropdown();
+        } else {
+            openCollectionDropdown();
+        }
+    }
+
+
+    if (collectionButton) {
+        collectionButton.addEventListener('click', function (event) {
+            event.stopPropagation();
+            toggleCollectionDropdown();
+        });
+    }
+
+
+    if (collectionWrapper) {
+
+        collectionWrapper.addEventListener('mouseenter', function () {
+            if (window.innerWidth >= 1024) {
+                openCollectionDropdown();
+            }
+        });
+
+        collectionWrapper.addEventListener('mouseleave', function () {
+            if (window.innerWidth >= 1024) {
+                closeCollectionDropdown();
+            }
+        });
+
+    }
+
+
+    /* Mobile Navigation */
+
+    function openMobileMenu() {
+
+        if (!mobileNavigation) {
+            return;
+        }
+
+        mobileNavigation.classList.remove('max-h-0');
+        mobileNavigation.classList.add('js-mobile-open');
+
+        mobileMenuButton?.setAttribute('aria-expanded', 'true');
+
+        mobileMenuIcon?.classList.add('hidden');
+        mobileCloseIcon?.classList.remove('hidden');
+
+        body.classList.add('nav-locked');
+
+        closeCollectionDropdown();
+    }
+
+
+    function closeMobileMenu() {
+
+        if (!mobileNavigation) {
+            return;
+        }
+
+        mobileNavigation.classList.remove('js-mobile-open');
+        mobileNavigation.classList.add('max-h-0');
+
+        mobileMenuButton?.setAttribute('aria-expanded', 'false');
+
+        mobileMenuIcon?.classList.remove('hidden');
+        mobileCloseIcon?.classList.add('hidden');
+
+        body.classList.remove('nav-locked');
+
+        closeMobileCollection();
+    }
+
+
+    function toggleMobileMenu() {
+
+        const isOpen =
+            mobileMenuButton?.getAttribute('aria-expanded') === 'true';
+
+        if (isOpen) {
+            closeMobileMenu();
+        } else {
+            openMobileMenu();
+        }
+    }
+
+
+    mobileMenuButton?.addEventListener('click', function () {
+        toggleMobileMenu();
+    });
+
+
+    /* Mobile Collection */
+
+    function openMobileCollection() {
+
+        if (!mobileCollectionMenu) {
+            return;
+        }
+
+        mobileCollectionMenu.classList.remove('hidden');
+        mobileCollectionMenu.classList.add('flex');
+
+        mobileCollectionButton?.setAttribute('aria-expanded', 'true');
+
+        mobileCollectionArrow?.classList.add('js-rotate-180');
+    }
+
+
+    function closeMobileCollection() {
+
+        if (!mobileCollectionMenu) {
+            return;
+        }
+
+        mobileCollectionMenu.classList.remove('flex');
+        mobileCollectionMenu.classList.add('hidden');
+
+        mobileCollectionButton?.setAttribute('aria-expanded', 'false');
+
+        mobileCollectionArrow?.classList.remove('js-rotate-180');
+    }
+
+
+    function toggleMobileCollection() {
+
+        const isOpen =
+            mobileCollectionButton?.getAttribute('aria-expanded') === 'true';
+
+        if (isOpen) {
+            closeMobileCollection();
+        } else {
+            openMobileCollection();
+        }
+    }
+
+
+    mobileCollectionButton?.addEventListener('click', function () {
+        toggleMobileCollection();
+    });
+
+
+    /* Aside Drawer */
+
+    function openAside() {
+
+        if (!asideWrapper || !asidePanel || !asideOverlay) {
+            return;
+        }
+
+        asideWrapper.classList.add('js-aside-open');
+
+        requestAnimationFrame(function () {
+            asideOverlay.classList.add('js-overlay-visible');
+            asidePanel.classList.add('js-aside-visible');
+        });
+
+        body.classList.add('nav-locked');
+
+        closeCollectionDropdown();
+        closeMobileMenu();
+    }
+
+
+    function closeAside() {
+
+        if (!asideWrapper || !asidePanel || !asideOverlay) {
+            return;
+        }
+
+        asideOverlay.classList.remove('js-overlay-visible');
+        asidePanel.classList.remove('js-aside-visible');
+
+        setTimeout(function () {
+
+            if (!asidePanel.classList.contains('js-aside-visible')) {
+                asideWrapper.classList.remove('js-aside-open');
+            }
+
+        }, 300);
+
+        body.classList.remove('nav-locked');
+    }
+
+
+    desktopAsideButton?.addEventListener('click', function () {
+        openAside();
+    });
+
+
+    mobileAsideButton?.addEventListener('click', function () {
+        openAside();
+    });
+
+
+    asideCloseButton?.addEventListener('click', function () {
+        closeAside();
+    });
+
+
+    asideOverlay?.addEventListener('click', function () {
+        closeAside();
+    });
+
+
+    /* Prevent clicks inside drawer from closing it */
+
+    asidePanel?.addEventListener('click', function (event) {
+        event.stopPropagation();
+    });
+
+
+    /* Close Everything When Clicking Outside */
+
+    document.addEventListener('click', function (event) {
+
+        if (
+            collectionWrapper &&
+            !collectionWrapper.contains(event.target)
+        ) {
+            closeCollectionDropdown();
+        }
+
+    });
+
+
+    /* Escape Key */
+
+    document.addEventListener('keydown', function (event) {
+
+        if (event.key !== 'Escape') {
+            return;
+        }
+
+        closeCollectionDropdown();
+        closeMobileMenu();
+        closeAside();
+
+    });
+
+
+    /* Close Mobile Menu After Clicking A Link */
+
+    if (mobileNavigation) {
+
+        mobileNavigation.querySelectorAll('a').forEach(function (link) {
+
+            link.addEventListener('click', function () {
+                closeMobileMenu();
+            });
+
+        });
+
+    }
+
+
+    /* Handle Resize */
+
+    window.addEventListener('resize', function () {
+
+        if (window.innerWidth >= 1024) {
+            closeMobileMenu();
+        }
+
+    });
+
+});
+</script>
