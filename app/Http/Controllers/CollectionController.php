@@ -3,55 +3,53 @@
 namespace App\Http\Controllers;
 
 use App\Models\Collection;
+use Illuminate\Support\Facades\DB;
 
 class CollectionController extends Controller
 {
-    public function show(string $slug)
-    {
-        $categories = [
-            'Rings' => [
-                'name' => 'Rings',
-                'db' => 'Rings',
-                'image' => 'build/rings.avif',
-            ],
-            'Ear Rings' => [
-                'name' => 'Ear Rings',
-                'db' => 'Earrings',
-                'image' => 'build/ear-rings.avif',
-            ],
-            'Bracelets' => [
-                'name' => 'Bracelets',
-                'db' => 'Bracelets',
-                'image' => 'build/bracelets.avif',
-            ],
-            'Necklace' => [
-                'name' => 'Necklace',
-                'db' => 'Necklace',
-                'image' => 'build/necklace.avif',
-            ],
-        ];
+     
+public function show(string $slug)
+{
+    $categories = [
+        'rings' => [
+            'name' => 'Rings',
+            'db' => ['rings'],
+            'image' => 'build/rings.avif',
+        ],
+        'ear-rings' => [
+            'name' => 'Ear Rings',
+            'db' => ['earrings', 'ear rings', 'ear-rings'],
+            'image' => 'build/ear-rings.avif',
+        ],
+        'bracelets' => [
+            'name' => 'Bracelets',
+            'db' => ['bracelets'],
+            'image' => 'build/bracelets.avif',
+        ],
+        'necklace' => [
+            'name' => 'Necklace',
+            'db' => ['necklace', 'necklaces'],
+            'image' => 'build/necklace.avif',
+        ],
+    ];
 
-        $categories = collect($categories)->keyBy(
-            fn ($category) => slugify($category['name'])
-        )->all();
+    $slug = strtolower(trim($slug));
 
-        $slug = slugify($slug);
+    abort_unless(isset($categories[$slug]), 404);
 
-        abort_unless(isset($categories[$slug]), 404);
+    $category = $categories[$slug];
 
-        $category = $categories[$slug];
+    $collections = Collection::whereIn(
+        DB::raw('LOWER(TRIM(category))'),
+        $category['db']
+    )->get();
 
-        $collections = Collection::whereRaw(
-            'LOWER(category) = ?',
-            [strtolower($category['db'])]
-        )->get();
-
-        return view('category', compact(
-            'category',
-            'collections',
-            'slug'
-        ));
-    }
+    return view('category', compact(
+        'category',
+        'collections',
+        'slug'
+    ));
+}
 
     public function only_read(string $slug, int $id)
     {
