@@ -54,9 +54,9 @@ public function show(string $slug)
     public function only_read(string $slug, int $id)
     {
         $collection = Collection::findOrFail($id);
-
+        $collections = Collection::latest()->paginate(5);
         return view('only-read', compact(
-            'collection',
+            'collection','collections',
             'slug'
         ));
     }

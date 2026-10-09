@@ -146,7 +146,7 @@
                                         </div>
 
                                         <a
-                                            href="{{ route('collections') }}"
+                                            href="{{ route('shop') }}"
                                             class="group flex items-center gap-1.5 rounded-full border border-gray-200/70 bg-white/60 px-3.5 py-2 text-[11px] font-semibold text-gray-500 transition-all duration-300 hover:border-gray-300 hover:bg-white hover:text-gray-900"
                                         >
                                             View All

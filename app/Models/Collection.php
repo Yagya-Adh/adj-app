@@ -8,19 +8,28 @@ use Illuminate\Support\Str;
 class Collection extends Model
 {
     protected $fillable = [
+        // Basic information
         'name',
         'slug',
+        'sku',
         'description',
+        'category',
         'image',
+
+        // Pricing
         'fullprice',
         'discount',
         'price',
         'is_sale',
-        'category',
-        'sku',
-        'gold_karats',
-        'diamond_weight',
+
+        // Jewelry details
+        'jewelry_type',
+        'jewelry_purity',
+        'jewelry_weight',
+        'weight_unit',
         'gold_color',
+
+        // Inventory
         'stock_status',
     ];
 
@@ -28,16 +37,19 @@ class Collection extends Model
         'fullprice' => 'decimal:2',
         'discount' => 'decimal:2',
         'price' => 'decimal:2',
-        'diamond_weight' => 'decimal:2',
+        'jewelry_purity' => 'decimal:2',
+        'jewelry_weight' => 'decimal:3',
         'is_sale' => 'boolean',
     ];
 
-    protected static function boot()
+    /**
+     * Generate a slug when creating a collection
+     * if one has not already been provided.
+     */
+    protected static function booted(): void
     {
-        parent::boot();
-
-        static::creating(function ($collection) {
-            if (!$collection->slug) {
+        static::creating(function (Collection $collection): void {
+            if (blank($collection->slug)) {
                 $collection->slug = Str::slug($collection->name);
             }
         });

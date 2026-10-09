@@ -6,7 +6,7 @@
             The New Edit
         </span>
 
-        <h2 class="font-serif text-6xl leading-[0.85] tracking-tight text-black sm:text-7xl md:text-8xl lg:text-[9rem]">
+        <h2 class="font-serif text-3xl leading-[0.85] tracking-tight text-black sm:text-7xl md:text-8xl">
             Latest
             <span class="font-normal">Collections</span>
         </h2>
