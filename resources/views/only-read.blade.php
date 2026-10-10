@@ -49,7 +49,7 @@
 
             {{-- Breadcrumb --}}
             <nav class="mb-8 flex flex-wrap items-center gap-2 text-xs text-gray-500">
-                <a href="{{ url('/') }}" class="transition hover:text-amber-800">
+                <a href="{{ url('/') }}" class="transition hover:text-gray-800">
                     Home
                 </a>
                 <span>/</span>
@@ -90,7 +90,7 @@
                         @endif
 
                         <span class="absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-full border border-white bg-white px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-800 sm:bottom-6 sm:left-6">
-                            <span class="h-1.5 w-1.5 rounded-full bg-amber-700"></span>
+                            <span class="h-1.5 w-1.5 rounded-full bg-gray-700"></span>
                             {{ $categoryName }}
                         </span>
                     </div>
@@ -107,7 +107,7 @@
 
                     {{-- BRAND PROMISE --}}
                     <div class="mt-6 flex items-center gap-4 rounded-2xl border border-gray-100 bg-white p-5">
-                        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-amber-50 text-amber-800">
+                        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gray-50 text-gray-800">
                             <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
                                 <path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3Z"/>
                             </svg>
@@ -127,8 +127,8 @@
                 <div class="lg:col-span-6 lg:pt-4">
 
                     <div class="flex items-center gap-3">
-                        <span class="h-px w-10 bg-amber-700"></span>
-                        <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-amber-800">
+                        <span class="h-px w-10 bg-gray-700"></span>
+                        <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-800">
                             Discover the Collection
                         </p>
                     </div>
@@ -137,12 +137,12 @@
                         {{ $collection->name }}
                     </h1>
 
-                    <div class="mt-6 flex items-center gap-3 text-amber-700">
-                        <span class="h-px w-10 bg-amber-300"></span>
+                    <div class="mt-6 flex items-center gap-3 text-gray-700">
+                        <span class="h-px w-10 bg-gray-300"></span>
                         <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
                             <path d="m12 2 2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5L12 2Z"/>
                         </svg>
-                        <span class="h-px w-10 bg-amber-300"></span>
+                        <span class="h-px w-10 bg-gray-300"></span>
                     </div>
 
                     {{-- DESCRIPTION --}}
@@ -197,7 +197,7 @@
                     {{-- COLLECTION HIGHLIGHTS --}}
                     <div class="mt-8 grid gap-5 sm:grid-cols-2">
                         <div class="flex items-start gap-3">
-                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-50 text-amber-800">
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gray-50 text-gray-800">
                                 <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                                     <path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z"/>
                                     <path d="m8.5 12 2.3 2.3 4.7-4.7"/>
@@ -214,7 +214,7 @@
                         </div>
 
                         <div class="flex items-start gap-3">
-                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-50 text-amber-800">
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gray-50 text-gray-800">
                                 <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                                     <path d="M12 3 20 7.5v9L12 21l-8-4.5v-9L12 3Z"/>
                                     <path d="m8.5 12 2.3 2.3 4.7-4.7"/>
@@ -246,7 +246,7 @@
 
                         <a
                             href="#price-details"
-                            class="inline-flex min-h-14 items-center justify-center rounded-xl border border-gray-200 bg-white px-6 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-gray-800 transition hover:border-amber-700 hover:text-amber-800"
+                            class="inline-flex min-h-14 items-center justify-center rounded-xl border border-gray-200 bg-white px-6 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-gray-800 transition hover:border-amber-700 hover:text-gray-800"
                         >
                             View Price Details
                         </a>
@@ -266,7 +266,7 @@
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
             <div class="mx-auto mb-12 max-w-xl text-center">
-                <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-amber-800">
+                <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-800">
                     The Experience
                 </p>
 
@@ -309,13 +309,13 @@
                 ] as $benefit)
                     <article class="group rounded-2xl border border-gray-200 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-amber-300 hover:shadow-lg">
                         <div class="flex items-center justify-between">
-                            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-amber-50 text-amber-800 transition group-hover:bg-gray-950 group-hover:text-white">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-gray-50 text-gray-800 transition group-hover:bg-gray-950 group-hover:text-white">
                                 <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
                                     <path d="{{ $benefit['icon'] }}"/>
                                 </svg>
                             </div>
 
-                            <span class="font-serif text-2xl text-amber-200">
+                            <span class="font-serif text-2xl text-gray-200">
                                 {{ $benefit['number'] }}
                             </span>
                         </div>
@@ -343,7 +343,7 @@
 
                 {{-- SECTION INTRODUCTION --}}
                 <div class="lg:col-span-5">
-                    <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-amber-800">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-800">
                         Transparent Pricing
                     </p>
 
@@ -358,7 +358,7 @@
                     @if($saleStart || $saleEnd)
                         <div class="mt-8 rounded-2xl border border-gray-200 bg-white p-5">
                             <div class="flex items-center gap-3">
-                                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-50 text-amber-800">
+                                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-50 text-gray-800">
                                     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                                         <circle cx="12" cy="12" r="9"/>
                                         <path d="M12 7v5l3 2"/>
@@ -408,7 +408,7 @@
                                 </h3>
                             </div>
 
-                            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-amber-50 text-amber-800">
+                            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gray-50 text-gray-800">
                                 <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
                                     <path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3Z"/>
                                 </svg>
@@ -500,11 +500,11 @@
     {{-- RELATED COLLECTIONS --}}
     @if(isset($collections))
         <section class="bg-white py-14 sm:py-20">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="mx-auto max-w-9xl px-4 sm:px-6 lg:px-8">
 
                 <div class="mb-10 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
                     <div>
-                        <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-amber-800">
+                        <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-800">
                             Discover More
                         </p>
 
@@ -543,13 +543,13 @@
 
             <div class="relative mx-auto max-w-3xl px-6 py-14 text-center sm:px-12 sm:py-20">
 
-                <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-amber-200/30 text-amber-200">
+                <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-amber-200/30 text-gray-200">
                     <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
                         <path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3Z"/>
                     </svg>
                 </div>
 
-                <p class="mt-6 text-[10px] font-bold uppercase tracking-[0.35em] text-amber-200">
+                <p class="mt-6 text-[10px] font-bold uppercase tracking-[0.35em] text-gray-200">
                     An Expression of You
                 </p>
 

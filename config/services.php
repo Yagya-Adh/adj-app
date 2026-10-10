@@ -35,4 +35,7 @@ return [
         ],
     ],
 
+    'goldapi' => [
+    'key' => env('GOLDAPI_KEY'),
+    ],
 ];

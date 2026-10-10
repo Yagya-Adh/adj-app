@@ -8,7 +8,7 @@
 
         <div class="mb-10 flex flex-col items-start justify-between gap-5 sm:mb-12 sm:flex-row sm:items-end">
             <div>
-                <p class="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-amber-800 sm:text-sm">
+                <p class="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-gray-900 sm:text-sm">
                     Latest Collections
                 </p>
 
@@ -66,7 +66,7 @@
 
         {{-- HEADER --}}
         <header class="mx-auto mb-12 max-w-2xl text-center sm:mb-16">
-            <p class="mb-4 text-[10px] font-semibold uppercase tracking-[0.4em] text-amber-800">
+            <p class="mb-4 text-[10px] font-semibold uppercase tracking-[0.4em] text-gray-900">
                 Our Collection
             </p>
 
@@ -74,7 +74,7 @@
                 {{ $category['name'] }}
             </h1>
 
-            <div class="mx-auto mt-6 h-px w-14 bg-amber-700"></div>
+            <div class="mx-auto mt-6 h-px w-14 text-gray-700"></div>
 
             <p class="mx-auto mt-6 max-w-xl text-sm leading-7 text-gray-600 sm:text-base">
                 Explore our {{ strtolower($category['name']) }} collection,
@@ -171,7 +171,7 @@
                             </div>
 
                             @if ($collection->gold_karats)
-                                <span class="shrink-0 text-[10px] font-semibold uppercase tracking-[0.15em] text-amber-800">
+                                <span class="shrink-0 text-[10px] font-semibold uppercase tracking-[0.15em] text-gray-900">
                                     {{ $collection->gold_karats }}K
                                 </span>
                             @endif
