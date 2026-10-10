@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+// Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
@@ -27,8 +28,10 @@ Route::middleware('auth')->group(function () {
     // Contacts
     Route::get('/contacts', [ContactController::class, 'index'])
         ->name('contact.index');
+
     Route::delete('/contacts/{contact}', [ContactController::class, 'destroy'])
         ->name('contact.destroy');
+
     // Collections
     Route::resource('collections', AdminCollectionController::class)
         ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
@@ -39,16 +42,27 @@ Route::middleware('auth')->group(function () {
         ->names('admin.blog');
 
     // Notifications
-    Route::get('/admin/notifications', [AdminNotificationController::class, 'index'])
-        ->name('admin.notifications.index');
+    Route::prefix('admin/notifications')
+        ->name('admin.notifications.')
+        ->controller(AdminNotificationController::class)
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
 
-    Route::post('/admin/notifications/{id}/read', [AdminNotificationController::class, 'markAsRead'])
-        ->whereUuid('id')
-        ->name('admin.notifications.read');
+            Route::post('/read-all', 'markAllAsRead')
+                ->name('readAll');
 
-    Route::post('/admin/notifications/read-all', [AdminNotificationController::class, 'markAllAsRead'])
-        ->name('admin.notifications.readAll');
+            Route::post('/{id}/read', 'markAsRead')
+                ->whereUuid('id')
+                ->name('read');
+
+            Route::delete('/{id}', 'destroy')
+                ->whereUuid('id')
+                ->name('destroy');
+        });
 });
 
+// Authentication
 require __DIR__.'/auth.php';
+
+// Client routes
 require __DIR__.'/client.php';

@@ -98,9 +98,10 @@
                             x-show="open"
                             x-transition.origin.top.right
                             x-cloak
-                            class="absolute right-0 z-50 mt-3 w-[min(90vw,380px)] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl shadow-slate-900/10"
+                            class="absolute right-0 z-50 mt-3 w-[min(90vw,400px)] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl shadow-slate-900/10"
                         >
 
+                            {{-- Header --}}
                             <div class="flex items-center justify-between border-b border-slate-100 px-4 py-4">
                                 <div>
                                     <h2 class="font-bold text-slate-900">Notifications</h2>
@@ -112,19 +113,35 @@
                                 <button
                                     @click="markAllAsRead()"
                                     :disabled="unreadCount === 0 || busy"
-                                    class="text-xs font-semibold text-indigo-600 transition hover:text-indigo-800 disabled:cursor-not-allowed disabled:opacity-40"
+                                    class="text-xs font-semibold text-indigo-600 transition hover:text-indigo-800 disabled:opacity-40"
                                 >
                                     Mark all read
                                 </button>
                             </div>
 
+                            {{-- Feedback --}}
+                            <div
+                                x-show="notice"
+                                x-cloak
+                                class="border-b border-emerald-100 bg-emerald-50 px-4 py-2 text-xs text-emerald-700"
+                                x-text="notice"
+                            ></div>
+
+                            {{-- Notification list --}}
                             <div class="max-h-[380px] overflow-y-auto">
 
-                                <div x-show="loading" class="px-4 py-10 text-center text-sm text-slate-500">
+                                <div
+                                    x-show="loading && notifications.length === 0"
+                                    class="px-4 py-10 text-center text-sm text-slate-500"
+                                >
                                     Loading notifications...
                                 </div>
 
-                                <div x-show="error" x-cloak class="px-4 py-8 text-center">
+                                <div
+                                    x-show="error"
+                                    x-cloak
+                                    class="px-4 py-6 text-center"
+                                >
                                     <p class="text-sm text-rose-600" x-text="error"></p>
 
                                     <button
@@ -155,44 +172,85 @@
                                 </template>
 
                                 <template x-for="notification in notifications" :key="notification.id">
-                                    <button
-                                        @click="openNotification(notification)"
-                                        :disabled="busy"
-                                        class="flex w-full gap-3 border-b border-slate-100 px-4 py-4 text-left transition hover:bg-slate-50 disabled:opacity-60"
-                                        :class="notification.read_at ? '' : 'bg-indigo-50/60'"
+                                    <div
+                                        class="flex items-start gap-3 border-b border-slate-100 px-4 py-4 transition"
+                                        :class="notification.read_at ? 'bg-white' : 'bg-indigo-50/60'"
                                     >
-                                        <span
-                                            class="mt-1 h-2.5 w-2.5 shrink-0 rounded-full"
-                                            :class="notification.read_at ? 'bg-slate-200' : 'bg-indigo-500'"
-                                        ></span>
 
-                                        <span class="min-w-0 flex-1">
+                                        {{-- Click notification to open --}}
+                                        <button
+                                            type="button"
+                                            @click="openNotification(notification)"
+                                            :disabled="busy || deletingId === notification.id"
+                                            class="flex min-w-0 flex-1 gap-3 text-left disabled:opacity-60"
+                                        >
                                             <span
-                                                class="block text-sm font-semibold text-slate-800"
-                                                x-text="notification.title"
+                                                class="mt-1 h-2.5 w-2.5 shrink-0 rounded-full"
+                                                :class="notification.read_at ? 'bg-slate-200' : 'bg-indigo-500'"
                                             ></span>
 
-                                            <span
-                                                class="mt-1 block break-words text-xs leading-5 text-slate-500"
-                                                x-text="notification.message"
-                                            ></span>
+                                            <span class="min-w-0 flex-1">
+                                                <span
+                                                    class="block break-words text-sm font-semibold text-slate-800"
+                                                    x-text="notification.title"
+                                                ></span>
 
-                                            <span
-                                                class="mt-2 block text-[11px] text-slate-400"
-                                                x-text="notification.created_at || ''"
-                                            ></span>
-                                        </span>
-                                    </button>
+                                                <span
+                                                    class="mt-1 block break-words text-xs leading-5 text-slate-500"
+                                                    x-text="notification.message"
+                                                ></span>
+
+                                                <span
+                                                    class="mt-2 block text-[11px] text-slate-400"
+                                                    x-text="notification.created_at || ''"
+                                                ></span>
+                                            </span>
+                                        </button>
+
+                                        {{-- AJAX Delete button --}}
+                                        <button
+                                            type="button"
+                                            @click.stop="deleteNotification(notification)"
+                                            :disabled="deletingId === notification.id"
+                                            :aria-label="'Delete ' + notification.title"
+                                            title="Delete notification"
+                                            class="shrink-0 rounded-lg p-2 text-slate-400 transition hover:bg-rose-100 hover:text-rose-600 disabled:cursor-wait disabled:opacity-50"
+                                        >
+                                            <template x-if="deletingId !== notification.id">
+                                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                                          stroke-linecap="round" stroke-linejoin="round"
+                                                          d="M3 6h18m-2 0-.9 14H5.9L5 6m4 0V4h6v2m-5 4v6m4-6v6"/>
+                                                </svg>
+                                            </template>
+
+                                            <svg
+                                                x-show="deletingId === notification.id"
+                                                x-cloak
+                                                class="h-4 w-4 animate-spin"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <circle class="opacity-25" cx="12" cy="12" r="10"
+                                                        stroke="currentColor" stroke-width="4"/>
+                                                <path class="opacity-75" fill="currentColor"
+                                                      d="M4 12a8 8 0 018-8V0C5.37 0 0 5.37 0 12h4z"/>
+                                            </svg>
+                                        </button>
+
+                                    </div>
                                 </template>
 
                             </div>
 
+                            {{-- Footer --}}
                             <div class="border-t border-slate-100 bg-slate-50 px-4 py-3">
                                 <button
                                     @click="loadNotifications()"
-                                    class="w-full text-center text-xs font-semibold text-slate-500 hover:text-indigo-600"
+                                    :disabled="loading"
+                                    class="w-full text-center text-xs font-semibold text-slate-500 transition hover:text-indigo-600 disabled:opacity-50"
                                 >
-                                    Refresh notifications
+                                    <span x-text="loading ? 'Refreshing...' : 'Refresh notifications'"></span>
                                 </button>
                             </div>
 
@@ -201,6 +259,7 @@
 
                     <div class="hidden h-8 w-px bg-slate-200 sm:block"></div>
 
+                    {{-- User --}}
                     <div class="flex items-center gap-3">
                         <div class="hidden text-right sm:block">
                             <p class="text-sm font-semibold text-slate-800">
@@ -218,6 +277,7 @@
             </div>
         </header>
 
+        {{-- Main content --}}
         <main class="p-4 sm:p-6 lg:p-8">
             @isset($header)
                 <div class="mb-8">{{ $header }}</div>
@@ -236,17 +296,20 @@
             loading: false,
             busy: false,
             error: '',
+            notice: '',
             notifications: [],
             unreadCount: 0,
+            deletingId: null,
             refreshTimer: null,
 
             init() {
                 this.loadNotifications();
 
-                this.refreshTimer = setInterval(
-                    () => this.loadNotifications(),
-                    30000
-                );
+                this.refreshTimer = setInterval(() => {
+                    if (!this.loading && !this.busy && !this.deletingId) {
+                        this.loadNotifications();
+                    }
+                }, 30000);
 
                 window.addEventListener('beforeunload', () => {
                     clearInterval(this.refreshTimer);
@@ -254,28 +317,33 @@
             },
 
             async request(url, options = {}) {
+                const csrf = document.querySelector(
+                    'meta[name="csrf-token"]'
+                )?.content;
+
                 const response = await fetch(url, {
                     credentials: 'same-origin',
                     ...options,
                     headers: {
                         'Accept': 'application/json',
                         'X-Requested-With': 'XMLHttpRequest',
-                        'X-CSRF-TOKEN': document.querySelector(
-                            'meta[name="csrf-token"]'
-                        ).content,
+                        ...(csrf ? { 'X-CSRF-TOKEN': csrf } : {}),
                         ...(options.headers || {})
                     }
                 });
 
                 if (!response.ok) {
-                    throw new Error(`Request failed (${response.status}).`);
+                    const data = await response.json().catch(() => ({}));
+                    throw new Error(
+                        data.message || `Request failed (${response.status}).`
+                    );
                 }
 
                 return response.json();
             },
 
             async loadNotifications() {
-                if (this.loading) return;
+                if (this.loading || this.deletingId) return;
 
                 this.loading = true;
                 this.error = '';
@@ -298,6 +366,7 @@
                 if (this.busy || this.unreadCount === 0) return;
 
                 this.busy = true;
+                this.error = '';
 
                 try {
                     await this.request(
@@ -311,15 +380,52 @@
                     }));
 
                     this.unreadCount = 0;
+                    this.notice = 'All notifications marked as read.';
                 } catch (error) {
-                    this.error = 'Could not mark notifications as read.';
+                    this.error = error.message || 'Could not mark notifications as read.';
                 } finally {
                     this.busy = false;
                 }
             },
 
+            async deleteNotification(notification) {
+                if (this.busy || this.deletingId) return;
+
+                if (!confirm('Are you sure you want to delete this notification?')) {
+                    return;
+                }
+
+                this.deletingId = notification.id;
+                this.error = '';
+                this.notice = '';
+
+                try {
+                    await this.request(
+                        @json(url('/admin/notifications')) + '/' +
+                        encodeURIComponent(notification.id),
+                        { method: 'DELETE' }
+                    );
+
+                    // Remove notification immediately without reloading.
+                    this.notifications = this.notifications.filter(
+                        item => item.id !== notification.id
+                    );
+
+                    // Decrease count only when the deleted notification was unread.
+                    if (!notification.read_at) {
+                        this.unreadCount = Math.max(0, this.unreadCount - 1);
+                    }
+
+                    this.notice = 'Notification deleted successfully.';
+                } catch (error) {
+                    this.error = error.message || 'Failed to delete notification.';
+                } finally {
+                    this.deletingId = null;
+                }
+            },
+
             async openNotification(notification) {
-                if (this.busy) return;
+                if (this.busy || this.deletingId) return;
 
                 this.busy = true;
                 this.error = '';
@@ -337,12 +443,9 @@
                     }
 
                     this.open = false;
-
-                    // Redirect to the contact index page after clicking.
                     window.location.href = @json(route('contact.index'));
-
                 } catch (error) {
-                    this.error = 'Could not update this notification.';
+                    this.error = error.message || 'Could not update this notification.';
                 } finally {
                     this.busy = false;
                 }

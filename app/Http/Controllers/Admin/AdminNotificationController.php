@@ -49,4 +49,25 @@ class AdminNotificationController extends Controller
 
         return response()->json(['success' => true]);
     }
+
+    public function destroy(Request $request, string $id): JsonResponse
+    {
+        $deleted = $request->user()
+            ->notifications()
+            ->where('id', $id)
+            ->delete();
+
+        if (! $deleted) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Notification not found.',
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Notification deleted successfully.',
+        ]);
+    }
+
 }

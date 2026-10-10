@@ -5,6 +5,7 @@ namespace App\Notifications;
 use App\Models\Contact;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Str;
 
 class ContactCreatedNotification extends Notification
 {
@@ -21,9 +22,11 @@ class ContactCreatedNotification extends Notification
 
     public function toDatabase(object $notifiable): array
     {
+        $model = Str::headline(class_basename($this->contact));
+
         return [
-            'title' => 'New contact received',
-            'message' => 'A new contact has been submitted.',
+            'title' => "New {$model} Received",
+            'message' => "A new {$model} has been submitted by {$this->contact->name}.",
             'contact_id' => $this->contact->getKey(),
             'created_at' => now()->toISOString(),
         ];
