@@ -296,4 +296,5 @@
 
 </section>
 @include('client.latest')
+@include('client.latest-blogs')
 @endsection 
