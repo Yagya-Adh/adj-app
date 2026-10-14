@@ -16,6 +16,9 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 Route::middleware('auth')->group(function () {
 
     // Profile
+    // Route::get('/profile', [ProfileController::class, 'index_view'])
+    //     ->name('profile.index');
+        
     Route::get('/profile', [ProfileController::class, 'edit'])
         ->name('profile.edit');
 
@@ -62,7 +65,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // Authentication
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 // Client routes
-require __DIR__.'/client.php';
+require __DIR__ . '/client.php';
