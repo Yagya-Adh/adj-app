@@ -15,10 +15,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 
 Route::middleware('auth')->group(function () {
 
-    // Profile
-    // Route::get('/profile', [ProfileController::class, 'index_view'])
-    //     ->name('profile.index');
-        
+    // Profile           
     Route::get('/profile', [ProfileController::class, 'edit'])
         ->name('profile.edit');
 

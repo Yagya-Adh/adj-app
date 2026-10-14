@@ -1,12 +1,6 @@
 @extends('layouts.app')
 
 @section('adminContent')
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-            {{ __('My Profile') }}
-        </h2>
-    </x-slot>
-
     <div class="min-h-screen bg-gray-50 py-10 dark:bg-gray-900">
         <div class="mx-auto max-w-5xl space-y-6 px-4 sm:px-6 lg:px-8">
 

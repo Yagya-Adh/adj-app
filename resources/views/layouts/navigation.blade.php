@@ -217,15 +217,17 @@
             <div class="group flex items-center gap-3 rounded-2xl border border-slate-200/70 bg-white p-3 shadow-sm transition hover:border-slate-300 hover:shadow-md">
 
                 <div class="relative shrink-0">
-                    <div class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl bg-slate-950 text-sm font-bold text-white shadow-md shadow-slate-950/15">
-                        @if(!empty(Auth::user()->avatar))
+                    <div class="h-10 w-10 overflow-hidden rounded-xl bg-slate-100">
+                        @if (Auth::user()->avatar)
                             <img
                                 src="{{ asset('storage/' . Auth::user()->avatar) }}"
                                 alt="{{ Auth::user()->name }}"
                                 class="h-full w-full object-cover"
                             >
                         @else
-                            {{ strtoupper(substr(Auth::user()->name ?? 'U', 0, 1)) }}
+                            <div class="flex h-full w-full items-center justify-center font-bold">
+                                {{ strtoupper(substr(Auth::user()->name ?? 'U', 0, 1)) }}
+                            </div>
                         @endif
                     </div>
 
