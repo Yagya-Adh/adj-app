@@ -94,3 +94,5 @@ Route::prefix('admin')->group(function () {
         });
     });
 });
+
+require __DIR__ . '/api_auth.php';
